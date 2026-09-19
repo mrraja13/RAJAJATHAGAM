@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ராஜா ஜாதகம்</title>
+<style>
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+.container { max-width: 1200px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+h1 { color: #8b0000; text-align: center; margin-bottom: 5px; }
+h2 { padding-bottom: 5px; }
+.subtitle { text-align: center; color: #666; margin-bottom: 20px; font-size: 14px; }
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; background: #fff8f0; padding: 20px; border-radius: 8px; border: 1px solid #ffe0b2; margin-bottom: 15px; }
+.form-group { display: flex; flex-direction: column; }
+.form-group label { font-weight: bold; margin-bottom: 5px; color: #5d4037; font-size: 13px; }
+.form-group input, .form-group select { padding: 8px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; background: #fff; }
+.btn-group { display: flex; gap: 10px; margin-bottom: 25px; }
+.btn-calc { background: #8b0000; color: #fff; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 15px; font-weight: bold; flex: 1; }
+.saved-charts-bar { display: flex; align-items: center; gap: 8px; background: #ede7f6; padding: 12px 15px; border-radius: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+.saved-charts-bar label { font-weight: bold; color: #4527a0; font-size: 13px; }
+.saved-charts-bar select { padding: 6px 10px; border-radius: 5px; border: 1px solid #b39ddb; font-size: 13px; min-width: 160px; }
+.btn-mini { padding: 6px 14px; border: none; border-radius: 5px; font-size: 12px; font-weight: bold; cursor: pointer; color: #fff; }
+.btn-open { background: #1976d2; }
+.btn-save { background: #2e7d32; }
+.btn-delete { background: #c62828; }
+
+.now-section { background: #fffdf5; border: 2px solid #b8860b; border-radius: 10px; padding: 18px; margin-bottom: 25px; }
+.now-title { font-size: 17px; font-weight: bold; color: #8b6508; border-bottom: 2px solid #f0d78c; padding-bottom: 6px; margin-bottom: 14px; }
+.now-row { background: #fff; border: 1px solid #f0e0b0; border-radius: 6px; padding: 10px 12px; margin-bottom: 8px; }
+.now-level { font-size: 11px; color: #8b6508; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+.now-lord { font-size: 16px; font-weight: bold; color: #8b0000; margin: 3px 0; }
+.now-detail { font-size: 12px; color: #444; line-height: 1.6; }
+.pt { display: inline-block; background: #e8f5e9; color: #2e7d32; padding: 1px 7px; border-radius: 10px; font-weight: bold; font-size: 11px; margin-left: 4px; }
+.pt-low { background: #ffebee; color: #c62828; }
+.pt-mid { background: #fff9c4; color: #b78103; }
+
+.kochara-section { background: #f5faff; border: 2px solid #1565c0; border-radius: 10px; padding: 18px; margin-bottom: 25px; }
+.kochara-title { font-size: 17px; font-weight: bold; color: #0d47a1; border-bottom: 2px solid #90caf9; padding-bottom: 6px; margin-bottom: 14px; }
+.kochara-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.kochara-table th { background: #1565c0; color: #fff; padding: 8px 6px; text-align: left; white-space: nowrap; font-size: 11px; }
+.kochara-table td { padding: 7px 6px; border-bottom: 1px solid #e3f2fd; white-space: nowrap; }
+.table-scroll { overflow-x: auto; margin-bottom: 20px; }
+
+.dasha-120-section { background: #fff; border: 2px solid #0f4c3a; border-radius: 8px; padding: 20px; margin-bottom: 30px; }
+.chart-info-badge { font-size: 13px; font-weight: normal; background: #fff; color: #0f4c3a; padding: 4px 12px; border-radius: 20px; border: 1px solid #a3e6d5; }
+.dasha-120-title { font-size: 18px; font-weight: bold; color: #0f4c3a; border-bottom: 2px solid #a3e6d5; padding-bottom: 6px; margin-bottom: 15px; }
+.dasha-120-note { font-size: 12px; color: #666; margin-bottom: 12px; }
+.acc-dasha-item { border: 1px solid #13654d; border-radius: 6px; margin-bottom: 10px; background: #f0fdf4; overflow: hidden; }
+.acc-dasha-head { background: #0f4c3a; color: #fff; padding: 12px 15px; cursor: pointer; font-weight: bold; font-size: 13px; }
+.acc-dasha-body { display: none; padding: 12px; background: #fff; }
+.acc-bhukti-item { border: 1px solid #bbf7d0; border-radius: 4px; margin-bottom: 8px; background: #fcfdfd; }
+.acc-bhukti-head { background: #e8f5e9; color: #1b5e20; padding: 8px 12px; cursor: pointer; font-weight: bold; font-size: 12px; }
+.acc-bhukti-body { display: none; padding: 10px; border-top: 1px solid #c8e6c9; }
+.acc-antara-item { border: 1px dashed #90caf9; border-radius: 4px; margin-bottom: 6px; background: #f4f8fb; }
+.acc-antara-head { background: #e3f2fd; color: #0d47a1; padding: 6px 10px; cursor: pointer; font-size: 11px; font-weight: bold; }
+.acc-antara-body { display: none; padding: 8px; border-top: 1px dashed #bbdefb; }
+.acc-sookshma-item { border: 1px dotted #ffcc80; border-radius: 4px; margin-bottom: 4px; background: #fffde7; }
+.acc-sookshma-head { background: #fff8e1; color: #b78103; padding: 5px 8px; cursor: pointer; font-size: 11px; font-weight: bold; }
+.acc-sookshma-body { display: none; padding: 6px; }
+.acc-prana-row { background: #fff; border: 1px solid #eee; padding: 5px 8px; border-radius: 3px; margin-top: 3px; font-size: 10px; color: #333; }
+.node-meta { display: block; font-weight: normal; font-size: 10px; color: #e0f2e9; margin-top: 3px; }
+.acc-bhukti-head .node-meta, .acc-antara-head .node-meta, .acc-sookshma-head .node-meta { color: #555; }
+.loading-txt { font-size: 11px; color: #888; padding: 4px 8px; font-style: italic; }
+
+.comparison-controls { background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; border: 1px solid #90caf9; flex-wrap: wrap; }
+.comparison-controls label { font-weight: bold; color: #0d47a1; font-size: 14px; }
+.comparison-controls select { padding: 8px 12px; font-size: 14px; border-radius: 6px; border: 1px solid #64b5f6; font-weight: bold; background: #fff; }
+.side-by-side-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px; }
+@media (max-width: 768px) { .side-by-side-container { grid-template-columns: 1fr; } }
+.charts-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
+.chart-box { border: 2px solid #8b0000; border-radius: 8px; padding: 10px; background: #fff; }
+.chart-title { font-weight: bold; color: #8b0000; font-size: 14px; text-align: center; margin-bottom: 8px; }
+.rasi-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(4, 92px); border: 2px solid #333; }
+.cell { border: 1px solid #666; padding: 3px; font-size: 10px; line-height: 1.25; background: #fff; overflow-y: auto; }
+.cell-center { grid-column: 2 / 4; grid-row: 2 / 4; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #8b0000; font-size: 13px; background: #fff8f0; }
+.ashtaka-charts-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
+.ashtaka-box { border: 2px solid #1565c0; border-radius: 8px; padding: 10px; background: #fff; }
+.ashtaka-title { text-align: center; font-weight: bold; color: #1565c0; margin-bottom: 10px; font-size: 15px; border-bottom: 1px solid #bbdefb; padding-bottom: 5px; }
+.bindu-val { font-size: 18px; font-weight: bold; color: #d32f2f; text-align: center; display: block; }
+.sign-label { font-size: 9px; color: #555; font-weight: bold; display: block; text-align: center; }
+.spudam-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #e0e0e0; }
+.spudam-table th { background: #8b0000; color: #fff; padding: 10px; text-align: left; font-size: 13px; white-space: nowrap; }
+.spudam-table td { padding: 8px 10px; border-bottom: 1px solid #eee; font-size: 13px; white-space: nowrap; }
+.status-badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+.badge-uccham { background: #e8f5e9; color: #2e7d32; }
+.badge-neesam { background: #ffebee; color: #c62828; }
+.badge-atchi { background: #e3f2fd; color: #1565c0; }
+.badge-karaka { background: #fff8e1; color: #b78103; font-weight: bold; }
+.basic-section { background: #fff9f5; border: 2px solid #8b0000; border-radius: 10px; padding: 18px; margin-bottom: 25px; }
+.basic-title { font-size: 17px; font-weight: bold; color: #8b0000; border-bottom: 2px solid #f0c0a0; padding-bottom: 6px; margin-bottom: 14px; }
+.basic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+.basic-item { background: #fff; border-left: 3px solid #8b0000; border-radius: 4px; padding: 8px 10px; }
+.basic-label { font-size: 10px; color: #8b6508; font-weight: bold; text-transform: uppercase; }
+.basic-value { font-size: 14px; color: #333; font-weight: bold; margin-top: 2px; }
+.varga-alert { background: #b71c1c; color: #fff; border: 4px solid #7f0000; border-radius: 10px; padding: 20px; margin-bottom: 25px; display: none; }
+.varga-alert-title { font-size: 22px; font-weight: bold; margin-bottom: 12px; }
+.varga-alert-item { background: rgba(255,255,255,0.15); padding: 8px 12px; border-radius: 5px; margin-bottom: 6px; font-size: 15px; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>ராஜா ஜாதகம்</h1>
+<div class="subtitle">120 வருட தசா பட்டியல் &amp; அனைத்து வர்க்கங்கள்</div>
+
+<div class="saved-charts-bar">
+  <label>சேமிக்கப்பட்ட ஜாதகங்கள்:</label>
+  <select id="savedChartsSelect"><option value="">-- தேர்ந்தெடுக்கவும் --</option></select>
+  <button class="btn-mini btn-open" onclick="openSelectedChart()">திற</button>
+  <button class="btn-mini btn-save" onclick="saveCurrentChart()">சேமி</button>
+  <button class="btn-mini btn-delete" onclick="deleteSelectedChart()">நீக்கு</button>
+  <button class="btn-mini" style="background:#00838f" onclick="exportCharts()">பதிவிறக்கு</button>
+  <button class="btn-mini" style="background:#f57c00" onclick="document.getElementById('importFile').click()">மீட்டெடு</button>
+  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importCharts(this)">
+  <button class="btn-mini" style="background:#b8860b" onclick="setNow()">இப்போது</button>
+</div>
+
+<div class="form-grid">
+  <div class="form-group"><label>பெயர்:</label><input type="text" id="name" value="Rajaram"></div>
+  <div class="form-group"><label>பாலினம்:</label><select id="gender"><option value="Male" selected>ஆண்</option><option value="Female">பெண்</option></select></div>
+  <div class="form-group"><label>தேதி (Day):</label><select id="dob_day"></select></div>
+  <div class="form-group"><label>மாதம் (Month):</label><select id="dob_month"></select></div>
+  <div class="form-group"><label>வருடம் (Year):</label><select id="dob_year"></select></div>
+  <div class="form-group"><label>மணி (Hour):</label><select id="tob_hour"></select></div>
+  <div class="form-group"><label>நிமிடம் (Min):</label><select id="tob_min"></select></div>
+  <div class="form-group"><label>நொடி (Sec):</label><select id="tob_sec"></select></div>
+  <div class="form-group"><label>AM / PM:</label><select id="tob_ampm"><option value="AM" selected>AM</option><option value="PM">PM</option></select></div>
+  <div class="form-group" style="position:relative;"><label>ஊர்:</label><input type="text" id="place_name" value="திசையன்விளை" autocomplete="off" oninput="searchPlace(this.value)"><div id="placeResults" style="position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #ccc;border-radius:4px;z-index:999;max-height:180px;overflow-y:auto;display:none;font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,0.15);"></div></div>
+  <div class="form-group"><label>அட்சரேகை (Lat):</label><input type="text" id="birth_lat" value="8.3333"></div>
+  <div class="form-group"><label>தீர்க்கரேகை (Lon):</label><input type="text" id="birth_lon" value="77.8500"></div>
+</div>
+
+<div class="btn-group">
+  <button class="btn-calc" onclick="calculateJathagam()">ஜாதகம் கணக்கிடு</button>
+</div>
+
+<div class="varga-alert" id="vargaAlert">
+  <div class="varga-alert-title">வர்க்கக் கணக்கீட்டில் வேறுபாடு</div>
+  <div id="vargaAlertList"></div>
+</div>
+
+<div class="basic-section">
+  <div class="basic-title">ஜாதக அடிப்படை விவரங்கள்</div>
+  <div class="basic-grid" id="basicGrid"><div class="loading-txt">ஏற்றப்படுகிறது...</div></div>
+</div>
+
+<div class="now-section">
+  <div class="now-title">நடப்பு தசா-புத்தி-அந்தர-சூக்ஷ்ம-பிராணன் <span id="nowAsOf" style="font-size:12px;font-weight:normal;color:#666;"></span></div>
+  <div id="nowDashaContainer"><div class="loading-txt">கணக்கிடப்படுகிறது...</div></div>
+</div>
+
+<div class="kochara-section">
+  <div class="kochara-title">கோச்சாரம் (இன்றைய கிரக நிலை) <span id="kocharaAsOf" style="font-size:12px;font-weight:normal;color:#666;"></span></div>
+  <div id="kocharaChartBox" style="max-width:380px;margin:0 auto 18px;"></div>
+  <div class="table-scroll">
+    <table class="kochara-table">
+      <thead><tr>
+        <th>கிரகம்</th><th>இன்று</th><th>சர்வ</th><th>பின்ன</th>
+        <th>ஜென்மத்திலிருந்து</th><th>லக்னம்</th><th>சந்திரன்</th><th>சூரியன்</th><th>சொந்த வீடு</th>
+      </tr></thead>
+      <tbody id="kocharaBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div style="margin-bottom:25px;">
+  <button onclick="toggleGrp('dasha120')" id="dasha120Btn" style="width:100%;padding:12px;background:#0f4c3a;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:15px;font-weight:bold;">120 வருட தசா பட்டியல் <span id="chartInfoDisplay" class="chart-info-badge"></span> ▼</button>
+  <div id="dasha120MethodsContainer" style="display:none;margin-top:15px;">
+    <div class="dasha-120-note">தசை மேல் கிளிக் செய்து புத்தி → அந்தரம் → சூக்ஷ்மம் → பிராணன் திறக்கவும்</div>
+    <div id="d120AccordionContainer"><div class="loading-txt">தசா தரவு ஏற்றப்படுகிறது...</div></div>
+  </div>
+</div>
+
+<div style="margin-bottom:25px;">
+  <button onclick="toggleGrp('ashtaka')" id="ashtakaBtn" style="width:100%;padding:12px;background:#1565c0;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:15px;font-weight:bold;">அஷ்டவர்க்கப் புள்ளிகள் ▼</button>
+  <div class="ashtaka-charts-container" id="ashtakaMethodsContainer" style="display:none;margin-top:15px;">
+    <div id="ashtakaChartsContainer" style="display:contents;"></div>
+  </div>
+</div>
+
+<h2 style="color:#8b0000;border-bottom:2px solid #8b0000;">கிரக ஸ்ஃபுடம்:</h2>
+<div style="margin-bottom:12px;">
+  <button onclick="toggleGrp('spudamEdit')" id="spudamEditBtn" style="padding:8px 16px;background:#5d4037;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:13px;font-weight:bold;">ஸ்புடம் திருத்து ▼</button>
+  <div id="spudamEditMethodsContainer" style="display:none;margin-top:12px;background:#fff8f0;border:1px solid #ffe0b2;border-radius:8px;padding:15px;">
+    <div style="font-size:12px;color:#666;margin-bottom:10px;">பாகை-கலை-விகலை வடிவில் உள்ளிடவும் (எ.கா. 17-55-38). ராசியைத் தேர்ந்தெடுக்கவும்.</div>
+    <div id="spudamEditGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;"></div>
+    <button onclick="applySpudamEdit()" style="margin-top:14px;width:100%;padding:11px;background:#8b0000;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px;font-weight:bold;">திருத்திய ஸ்புடத்தில் கணக்கிடு</button>
+  </div>
+</div>
+<div class="table-scroll">
+  <table class="spudam-table">
+    <thead><tr>
+      <th>கிரகம் / பாவம்</th><th>D1 ராசி</th><th>பாகை - கலை - விகலை</th><th>நட்சத்திரம் - பாதம்</th>
+      <th>அஸ்தங்கம்/கிரகணம்/யுத்தம்/புஷ்கரம்</th><th>ஜைமினி காரகம்</th><th>சிறப்பு நிலை</th>
+    </tr></thead>
+    <tbody id="spudamTableBody"></tbody>
+  </table>
+</div>
+
+<div class="comparison-controls">
+  <label for="vargaSelector">D1-உடன் ஒப்பிட்டுப் பார்க்க:</label>
+  <select id="vargaSelector" onchange="updateComparisonView()"><option value="kochara" selected>கோச்சாரம் (இன்று)</option></select>
+</div>
+
+<div class="side-by-side-container">
+  <div id="d1ChartBox"></div>
+  <div id="selectedVargaBox"></div>
+</div>
+
+<div style="margin-bottom:25px;">
+  <button onclick="toggleD2()" id="d2Btn" style="width:100%;padding:12px;background:#6a1b9a;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:15px;font-weight:bold;">D2 ஹோரா — அனைத்து முறைகள் (11) ▼</button>
+  <div class="charts-container" id="d2MethodsContainer" style="display:none;margin-top:15px;"></div>
+</div>
+
+<div style="margin-bottom:25px;">
+  <button onclick="toggleGrp('d3')" id="d3Btn" style="width:100%;padding:12px;background:#00695c;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:15px;font-weight:bold;">D3 திரேக்காணம் — அனைத்து முறைகள் (4) ▼</button>
+  <div id="d3MethodsContainer" style="display:none;margin-top:15px;"></div>
+</div>
+
+<div style="margin-bottom:25px;">
+  <button onclick="toggleGrp('d16')" id="d16Btn" style="width:100%;padding:12px;background:#e65100;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:15px;font-weight:bold;">D16 ஷோடசாம்சம் — அனைத்து முறைகள் (2) ▼</button>
+  <div id="d16MethodsContainer" style="display:none;margin-top:15px;"></div>
+</div>
+
+<h2 style="color:#8b0000;border-bottom:2px solid #8b0000;">அனைத்து வர்க்கச் சக்கரங்கள்:</h2>
+<div class="charts-container" id="allVargaChartsContainer"></div>
+</div>
+<script>
+const SIGNS_TA = ["மேஷம்","ரிஷபம்","மிதுனம்","கடகம்","சிம்மம்","கன்னி","துலாம்","விருச்சிகம்","தனுசு","மகரம்","கும்பம்","மீனம்"];
+let globalVargaData = [];
+let globalHouseHighlights = {};
+
+function populateSelect(id, start, end, pad, selected) {
+    const el = document.getElementById(id);
+    el.innerHTML = '';
+    for (let i = start; i <= end; i++) {
+        const val = pad ? String(i).padStart(2, '0') : String(i);
+        const opt = document.createElement('option');
+        opt.value = val; opt.textContent = val;
+        if (val === String(selected)) opt.selected = true;
+        el.appendChild(opt);
+    }
+}
+
+function populateAllDropdowns() {
+    populateSelect('dob_day', 1, 31, true, '05');
+    populateSelect('dob_month', 1, 12, true, '10');
+    const ys = document.getElementById('dob_year');
+    ys.innerHTML = '';
+    for (let y = 2026; y >= 1900; y--) {
+        const o = document.createElement('option');
+        o.value = String(y); o.textContent = String(y);
+        if (y === 1979) o.selected = true;
+        ys.appendChild(o);
+    }
+    populateSelect('tob_hour', 1, 12, true, '10');
+    populateSelect('tob_min', 0, 59, true, '10');
+    populateSelect('tob_sec', 0, 59, true, '28');
+}
+
+let _placeTimer = null;
+function searchPlace(val) {
+    const box = document.getElementById('placeResults');
+    if (!val || val.length < 3) { box.style.display = 'none'; return; }
+    clearTimeout(_placeTimer);
+    _placeTimer = setTimeout(function() {
+        fetch('https://nominatim.openstreetmap.org/search?format=json&limit=6&addressdetails=1&accept-language=ta&q=' + encodeURIComponent(val))
+            .then(function(r) { return r.json(); })
+            .then(function(list) {
+                if (!list || !list.length) { box.style.display = 'none'; return; }
+                box.innerHTML = '';
+                list.forEach(function(item) {
+                    const a = item.address || {};
+                    const place = a.village || a.town || a.city || a.suburb || val;
+                    const rest = [a.state_district || a.county || '', a.state || '', a.country || ''].filter(Boolean).join(', ');
+                    const row = document.createElement('div');
+                    row.style.cssText = 'padding:7px 10px;cursor:pointer;border-bottom:1px solid #eee;';
+                    row.innerHTML = '<b>' + place + '</b><br><small style="color:#666;">' + rest + '</small>';
+                    row.onclick = function() {
+                        document.getElementById('place_name').value = place;
+                        document.getElementById('birth_lat').value = parseFloat(item.lat).toFixed(4);
+                        document.getElementById('birth_lon').value = parseFloat(item.lon).toFixed(4);
+                        box.style.display = 'none';
+                        calculateJathagam();
+                    };
+                    box.appendChild(row);
+                });
+                box.style.display = 'block';
+            })
+            .catch(function() { box.style.display = 'none'; });
+    }, 400);
+}
+document.addEventListener('click', function(e) {
+    if (e.target.id !== 'place_name') {
+        const b = document.getElementById('placeResults');
+        if (b) b.style.display = 'none';
+    }
+});
+
+function setNow() {
+    const n = new Date();
+    let h = n.getHours();
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12; if (h === 0) h = 12;
+    document.getElementById('dob_day').value = String(n.getDate()).padStart(2,'0');
+    document.getElementById('dob_month').value = String(n.getMonth()+1).padStart(2,'0');
+    document.getElementById('dob_year').value = String(n.getFullYear());
+    document.getElementById('tob_hour').value = String(h).padStart(2,'0');
+    document.getElementById('tob_min').value = String(n.getMinutes()).padStart(2,'0');
+    document.getElementById('tob_sec').value = String(n.getSeconds()).padStart(2,'0');
+    document.getElementById('tob_ampm').value = ampm;
+    document.getElementById('name').value = 'தற்சமயம்';
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(pos) {
+            const la = pos.coords.latitude, lo = pos.coords.longitude;
+            document.getElementById('birth_lat').value = la.toFixed(4);
+            document.getElementById('birth_lon').value = lo.toFixed(4);
+            fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + la + '&lon=' + lo + '&accept-language=ta')
+                .then(function(r) { return r.json(); })
+                .then(function(j) {
+                    const a = j.address || {};
+                    const p = a.village || a.town || a.city || a.suburb || a.county || '';
+                    if (p) document.getElementById('place_name').value = p;
+                })
+                .catch(function() {});
+            calculateJathagam();
+        }, function() { calculateJathagam(); }, { timeout: 5000 });
+    } else {
+        calculateJathagam();
+    }
+}
+
+window.onload = function() {
+    populateAllDropdowns();
+    clearForm();
+    loadSavedChartsList();
+};
+
+function clearForm() {
+    document.getElementById('name').value = '';
+    if (document.getElementById('place_name')) document.getElementById('place_name').value = '';
+    document.getElementById('birth_lat').value = '';
+    document.getElementById('birth_lon').value = '';
+    ['dob_day','dob_month','dob_year','tob_hour','tob_min','tob_sec'].forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) el.selectedIndex = -1;
+    });
+    window._openedChart = null;
+}
+
+function getBirthFormValues() {
+    const day = document.getElementById('dob_day').value.padStart(2, '0');
+    const month = document.getElementById('dob_month').value.padStart(2, '0');
+    const year = document.getElementById('dob_year').value;
+    let hour = parseInt(document.getElementById('tob_hour').value, 10);
+    const min = document.getElementById('tob_min').value.padStart(2, '0');
+    const sec = (document.getElementById('tob_sec').value || '0').padStart(2, '0');
+    const ampm = document.getElementById('tob_ampm').value.trim().toUpperCase();
+    if (ampm === 'PM' && hour < 12) hour += 12;
+    if (ampm === 'AM' && hour === 12) hour = 0;
+    return {
+        dob: year + '-' + month + '-' + day,
+        tob: String(hour).padStart(2, '0') + ':' + min + ':' + sec,
+        lat: document.getElementById('birth_lat').value || '8.4956',
+        lon: document.getElementById('birth_lon').value || '78.1198'
+    };
+}
+
+function ptClass(v) {
+    if (v === null || v === undefined) return 'pt';
+    if (v >= 30) return 'pt';
+    if (v >= 25) return 'pt pt-mid';
+    return 'pt pt-low';
+}
+
+function bhinnaClass(v) {
+    if (v === null || v === undefined) return 'pt';
+    if (v >= 5) return 'pt';
+    if (v >= 3) return 'pt pt-mid';
+    return 'pt pt-low';
+}
+
+function nodeMeta(n) {
+    if (!n.rasi) return '';
+    const owns = (n.owns && n.owns.length) ? n.owns.join(', ') + '-ம் அதிபதி' : '';
+    let s = n.rasi + ' | ' + n.bhava + '-ம் பாவம்';
+    if (owns) s += ' | ' + owns;
+    s += ' | சர்வ <span class="' + ptClass(n.sarva) + '">' + n.sarva + '</span>';
+    if (n.bhinna !== null && n.bhinna !== undefined) {
+        s += ' பின்ன <span class="' + bhinnaClass(n.bhinna) + '">' + n.bhinna + '</span>';
+    }
+    return '<span class="node-meta">' + s + '</span>';
+}
+
+function fmtRange(start, end, showTime) {
+    const sp = String(start).split(' ');
+    const ep = String(end).split(' ');
+    if (showTime && sp[1] && ep[1]) {
+        return sp[0] + ' ' + sp[1] + ' - ' + ep[0] + ' ' + ep[1];
+    }
+    return sp[0] + ' - ' + ep[0];
+}
+
+async function calculateJathagam() {
+    try {
+        const birth = getBirthFormValues();
+        const badge = document.getElementById('chartInfoDisplay');
+        if (badge) badge.textContent = birth.dob + '  |  ' + birth.tob + ' IST';
+        const res = await fetch('/get_varga_predictions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(birth)
+        });
+        const data = await res.json();
+        if (data.status === 'success') {
+            if (data.longitudes) { lastLongitudes = data.longitudes; buildSpudamEditor(); }
+            if (data.spudam_list) renderSpudamTable(data.spudam_list);
+            if (data.ashtakavarga) renderAshtakavargaCharts(data.ashtakavarga);
+            globalHouseHighlights = data.house_highlights || {};
+            const al = document.getElementById('vargaAlert');
+            if (al) {
+                const ds = data.varga_diffs || [];
+                if (ds.length) {
+                    document.getElementById('vargaAlertList').innerHTML = ds.map(function(x) {
+                        return '<div class="varga-alert-item">' + x.varga + ' — ' + x.graha +
+                               ' : சூத்திரம் <b>' + x.formula + '</b> | அட்டவணை <b>' + x.table + '</b></div>';
+                    }).join('');
+                    al.style.display = 'block';
+                } else {
+                    al.style.display = 'none';
+                }
+            }
+            if (data.varga_charts) {
+                globalVargaData = data.varga_charts;
+                updateComparisonView();
+                const sel = document.getElementById('vargaSelector');
+                if (sel && sel.options.length <= 1) {
+                    globalVargaData.forEach(function(co, i) {
+                        const o = document.createElement('option');
+                        o.value = i; o.textContent = co.name;
+                        sel.appendChild(o);
+                    });
+                }
+                const d2box = document.getElementById('d2MethodsContainer');
+                if (d2box) {
+                    d2box.innerHTML = '';
+                    (data.d2_methods || []).forEach(function(m, mi) {
+                        const wrap = document.createElement('div');
+                        wrap.style.cssText = 'margin-bottom:10px;';
+                        const hb = document.createElement('button');
+                        hb.textContent = m.name + ' ▼';
+                        hb.style.cssText = 'width:100%;padding:9px;background:#ede7f6;color:#4527a0;border:1px solid #b39ddb;border-radius:5px;cursor:pointer;font-size:14px;font-weight:bold;text-align:left;';
+                        const body = document.createElement('div');
+                        body.style.cssText = 'display:none;margin-top:8px;max-width:400px;';
+                        const sv = globalHouseHighlights;
+                        globalHouseHighlights = {};
+                        body.appendChild(createChartBox(m.name, m.grid));
+                        globalHouseHighlights = sv;
+                        hb.onclick = function() {
+                            const op = body.style.display === 'block';
+                            body.style.display = op ? 'none' : 'block';
+                            hb.textContent = m.name + (op ? ' ▼' : ' ▲');
+                        };
+                        wrap.appendChild(hb);
+                        wrap.appendChild(body);
+                        d2box.appendChild(wrap);
+                    });
+                }
+                renderMethodGroup('d3MethodsContainer', data.d3_methods, '#e0f2f1', '#00695c', '#4db6ac');
+                renderMethodGroup('d16MethodsContainer', data.d16_methods, '#fff3e0', '#e65100', '#ffb74d');
+                const all = document.getElementById('allVargaChartsContainer');
+                all.innerHTML = '';
+                globalVargaData.forEach(function(co) {
+                    all.appendChild(createChartBox(co.name, co.grid));
+                });
+            }
+        }
+    } catch (e) { console.log('calc error', e); }
+    loadDasha120();
+    loadBasicInfo();
+    loadKochara();
+    loadNowDasha();
+}
+
+let lastLongitudes = {};
+
+function buildSpudamEditor() {
+    const box = document.getElementById('spudamEditGrid');
+    if (!box) return;
+    const order = ['Lagna','Sun','Moon','Mars','Mercury','Jupiter','Venus','Saturn','Rahu','Ketu','Gulika'];
+    const ta = {Lagna:'லக்னம்',Sun:'சூரியன்',Moon:'சந்திரன்',Mars:'செவ்வாய்',Mercury:'புதன்',Jupiter:'குரு',Venus:'சுக்கிரன்',Saturn:'சனி',Rahu:'ராகு',Ketu:'கேது',Gulika:'குளிகன்'};
+    box.innerHTML = '';
+    order.forEach(function(g) {
+        const L = lastLongitudes[g];
+        if (L === undefined || L === null) return;
+        const s = Math.floor(L / 30), d = L % 30;
+        const deg = Math.floor(d), mn = Math.floor((d - deg) * 60), sc = Math.round(((d - deg) * 60 - mn) * 60);
+        const row = document.createElement('div');
+        row.style.cssText = 'display:flex;align-items:center;gap:6px;';
+        let opts = '';
+        for (let i = 0; i < 12; i++) {
+            opts += '<option value="' + i + '"' + (i === s ? ' selected' : '') + '>' + SIGNS_TA[i] + '</option>';
+        }
+        function numOpts(max, sel) {
+            let o = '';
+            for (let i = 0; i <= max; i++) {
+                o += '<option value="' + i + '"' + (i === sel ? ' selected' : '') + '>' + String(i).padStart(2,'0') + '</option>';
+            }
+            return o;
+        }
+        const numStyle = 'padding:4px;font-size:12px;';
+        row.innerHTML = '<span style="min-width:62px;font-size:12px;font-weight:bold;">' + ta[g] + '</span>' +
+            '<select data-g="' + g + '" class="sp-sign" style="padding:4px;font-size:12px;">' + opts + '</select>' +
+            '<select data-g="' + g + '" class="sp-deg" style="' + numStyle + '">' + numOpts(29, deg) + '</select>' +
+            '<select data-g="' + g + '" class="sp-min" style="' + numStyle + '">' + numOpts(59, mn) + '</select>' +
+            '<select data-g="' + g + '" class="sp-sec" style="' + numStyle + '">' + numOpts(59, sc > 59 ? 59 : sc) + '</select>';
+        box.appendChild(row);
+    });
+}
+
+async function applySpudamEdit() {
+    const out = {};
+    document.querySelectorAll('.sp-sign').forEach(function(sel) {
+        const g = sel.getAttribute('data-g');
+        const s = parseInt(sel.value, 10);
+        const dg = parseFloat(document.querySelector('.sp-deg[data-g="' + g + '"]').value) || 0;
+        const mn = parseFloat(document.querySelector('.sp-min[data-g="' + g + '"]').value) || 0;
+        const sc = parseFloat(document.querySelector('.sp-sec[data-g="' + g + '"]').value) || 0;
+        out[g] = s * 30 + dg + mn / 60 + sc / 3600;
+    });
+    try {
+        const res = await fetch('/calc_from_spudam', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ longitudes: out })
+        });
+        const d = await res.json();
+        if (d.status !== 'success') { alert('பிழை: ' + d.message); return; }
+        lastLongitudes = out;
+        globalVargaData = d.varga_charts;
+        globalHouseHighlights = d.house_highlights || {};
+        if (d.ashtakavarga) renderAshtakavargaCharts(d.ashtakavarga);
+        updateComparisonView();
+        const all = document.getElementById('allVargaChartsContainer');
+        all.innerHTML = '';
+        globalVargaData.forEach(function(co) { all.appendChild(createChartBox(co.name, co.grid)); });
+        renderMethodGroup('d2MethodsContainer', d.d2_methods, '#ede7f6', '#4527a0', '#b39ddb');
+        renderMethodGroup('d3MethodsContainer', d.d3_methods, '#e0f2f1', '#00695c', '#4db6ac');
+        renderMethodGroup('d16MethodsContainer', d.d16_methods, '#fff3e0', '#e65100', '#ffb74d');
+        alert('திருத்திய ஸ்புடத்தில் கணக்கிடப்பட்டது');
+    } catch (e) { alert('கணக்கிட முடியவில்லை'); }
+}
+
+function renderMethodGroup(boxId, methods, bg, fg, bd) {
+    const box = document.getElementById(boxId);
+    if (!box) return;
+    box.innerHTML = '';
+    (methods || []).forEach(function(m) {
+        const wrap = document.createElement('div');
+        wrap.style.cssText = 'margin-bottom:10px;';
+        const hb = document.createElement('button');
+        hb.textContent = m.name + ' ▼';
+        hb.style.cssText = 'width:100%;padding:9px;background:' + bg + ';color:' + fg + ';border:1px solid ' + bd + ';border-radius:5px;cursor:pointer;font-size:14px;font-weight:bold;text-align:left;';
+        const body = document.createElement('div');
+        body.style.cssText = 'display:none;margin-top:8px;max-width:400px;';
+        const sv = globalHouseHighlights;
+        globalHouseHighlights = {};
+        body.appendChild(createChartBox(m.name, m.grid));
+        globalHouseHighlights = sv;
+        hb.onclick = function() {
+            const op = body.style.display === 'block';
+            body.style.display = op ? 'none' : 'block';
+            hb.textContent = m.name + (op ? ' ▼' : ' ▲');
+        };
+        wrap.appendChild(hb);
+        wrap.appendChild(body);
+        box.appendChild(wrap);
+    });
+}
+
+function toggleGrp(key) {
+    const box = document.getElementById(key + 'MethodsContainer');
+    const btn = document.getElementById(key + 'Btn');
+    const op = box.style.display === 'block';
+    box.style.display = op ? 'none' : 'block';
+    btn.textContent = btn.textContent.replace(op ? '▲' : '▼', op ? '▼' : '▲');
+}
+
+function toggleD2() {
+    const box = document.getElementById('d2MethodsContainer');
+    const btn = document.getElementById('d2Btn');
+    const open = box.style.display === 'block';
+    box.style.display = open ? 'none' : 'block';
+    btn.textContent = 'D2 ஹோரா — அனைத்து முறைகள் (11) ' + (open ? '▼' : '▲');
+}
+
+async function loadBasicInfo() {
+    const box = document.getElementById('basicGrid');
+    try {
+        const birth = getBirthFormValues();
+        const res = await fetch('/get_basic_info', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(birth)
+        });
+        const d = await res.json();
+        if (d.status !== 'success') { box.innerHTML = '<div class="loading-txt">பிழை</div>'; return; }
+        const i = d.info;
+        const rows = [
+            ['பெயர்', document.getElementById('name').value],
+            ['பாலினம்', document.getElementById('gender').value === 'Male' ? 'ஆண்' : 'பெண்'],
+            ['பிறந்த தேதி', i.dob_str],
+            ['பிறந்த நேரம்', i.tob_str],
+            ['கிழமை', i.weekday],
+            ['ஊர்', (document.getElementById('place_name') || {}).value || ''],
+            ['நட்சத்திரம்', i.nakshatra + ' - ' + i.pada + 'ம் பாதம்'],
+            ['ராசி', i.moon_rasi],
+            ['லக்னம்', i.lagna_rasi],
+            ['திதி', i.tithi],
+            ['யோகம்', i.yoga],
+            ['கரணம்', i.karana],
+            ['ஹோரை', i.hora],
+            ['யோனி (மிருகம்)', i.yoni],
+            ['பஞ்சபட்சி', i.pakshi],
+            ['விருட்சம்', i.vriksha],
+            ['கணம்', i.gana],
+            ['யோகி', i.yogi + ' (' + i.yogi_nak + ')'],
+            ['அவயோகி', i.avayogi + ' (' + i.avayogi_nak + ')'],
+            ['துல்ய யோகி', i.duplicate_yogi]
+        ];
+        box.innerHTML = '';
+        rows.forEach(function(r) {
+            if (!r[1]) return;
+            const el = document.createElement('div');
+            el.className = 'basic-item';
+            el.innerHTML = '<div class="basic-label">' + r[0] + '</div><div class="basic-value">' + r[1] + '</div>';
+            box.appendChild(el);
+        });
+    } catch (e) { box.innerHTML = '<div class="loading-txt">ஏற்ற முடியவில்லை</div>'; }
+}
+
+async function loadKochara() {
+    const tbody = document.getElementById('kocharaBody');
+    try {
+        const birth = getBirthFormValues();
+        const res = await fetch('/get_kochara', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(birth)
+        });
+        const d = await res.json();
+        if (d.status !== 'success') { tbody.innerHTML = '<tr><td colspan="9">பிழை</td></tr>'; return; }
+        document.getElementById('kocharaAsOf').textContent = d.as_of || '';
+        window._kocharaGrid = d.grid || null;
+        if (d.grid) {
+            const cb = document.getElementById('kocharaChartBox');
+            cb.innerHTML = '';
+            const saveHl = globalHouseHighlights;
+            globalHouseHighlights = {};
+            cb.appendChild(createChartBox('கோச்சாரம்', d.grid));
+            globalHouseHighlights = saveHl;
+        }
+        if (document.getElementById('vargaSelector').value === 'kochara') updateComparisonView();
+        tbody.innerHTML = '';
+        const order = ['Lagna','Sun','Moon','Mars','Mercury','Jupiter','Venus','Saturn','Rahu','Ketu','Gulika'];
+        order.forEach(function(g) {
+            const k = d.kochara[g];
+            if (!k) return;
+            const tr = document.createElement('tr');
+            tr.innerHTML =
+                '<td><b>' + k.lord_ta + '</b></td>' +
+                '<td>' + k.rasi + '</td>' +
+                '<td><span class="' + ptClass(k.sarva) + '">' + k.sarva + '</span></td>' +
+                '<td>' + (k.bhinna !== null && k.bhinna !== undefined ? '<span class="' + bhinnaClass(k.bhinna) + '">' + k.bhinna + '</span>' : '-') + '</td>' +
+                '<td>' + (k.natal_rasi || '-') + ' → ' + (k.from_natal || '-') + '</td>' +
+                '<td>' + (k.from_lagna || '-') + '</td>' +
+                '<td>' + (k.from_moon || '-') + '</td>' +
+                '<td>' + (k.from_sun || '-') + '</td>' +
+                '<td>' + (k.from_own || '-') + '</td>';
+            tbody.appendChild(tr);
+        });
+    } catch (e) { tbody.innerHTML = '<tr><td colspan="9">ஏற்ற முடியவில்லை</td></tr>'; }
+}
+
+async function loadNowDasha() {
+    const box = document.getElementById('nowDashaContainer');
+    box.innerHTML = '<div class="loading-txt">கணக்கிடப்படுகிறது...</div>';
+    try {
+        const birth = getBirthFormValues();
+        const res = await fetch('/get_dasha_120', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ dob: birth.dob, tob: birth.tob })
+        });
+        const d = await res.json();
+        if (d.status !== 'success') { box.innerHTML = '<div class="loading-txt">பிழை</div>'; return; }
+        const now = new Date();
+        document.getElementById('nowAsOf').textContent =
+            String(now.getDate()).padStart(2,'0') + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + now.getFullYear();
+        const labels = ['தசா','புத்தி','அந்தரம்','சூக்ஷ்மம்','பிராணன்'];
+        box.innerHTML = '';
+        let current = pickCurrent(d.mahadasas, now);
+        let level = 0;
+        while (current && level < 5) {
+            box.appendChild(nowRow(labels[level], current));
+            if (level === 4) break;
+            const kids = await fetchChildren(current, level + 1);
+            if (!kids || !kids.length) break;
+            current = pickCurrent(kids, now);
+            level++;
+        }
+        if (!box.children.length) box.innerHTML = '<div class="loading-txt">நடப்பு தசை கண்டறிய முடியவில்லை</div>';
+    } catch (e) {
+        box.innerHTML = '<div class="loading-txt">ஏற்ற முடியவில்லை</div>';
+    }
+}
+
+function parseDMY(s) {
+    const p = String(s).split(' ');
+    const d = p[0].split('-');
+    const t = (p[1] || '00:00').split(':');
+    return new Date(parseInt(d[2],10), parseInt(d[1],10)-1, parseInt(d[0],10),
+                    parseInt(t[0],10), parseInt(t[1],10));
+}
+
+function pickCurrent(nodes, now) {
+    for (let i = 0; i < nodes.length; i++) {
+        const s = parseDMY(nodes[i].start);
+        const e = parseDMY(nodes[i].end);
+        if (now >= s && now < e) return nodes[i];
+    }
+    return null;
+}
+
+async function fetchChildren(node, level) {
+    try {
+        const res = await fetch('/get_dasha_children', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ lord: node.lord, start: node.start, years: node.years, level: level })
+        });
+        const d = await res.json();
+        return (d.status === 'success') ? d.children : null;
+    } catch (e) { return null; }
+}
+
+function nowRow(levelName, n) {
+    const div = document.createElement('div');
+    div.className = 'now-row';
+    const owns = (n.owns && n.owns.length) ? n.owns.join(', ') + '-ம் பாவாதிபதி' : '';
+    let detail = '';
+    if (n.rasi) {
+        detail = n.rasi + ' | ' + n.bhava + '-ம் பாவத்தில்';
+        if (owns) detail += ' | ' + owns;
+        detail += '<br>சர்வாஷ்டகம் <span class="' + ptClass(n.sarva) + '">' + n.sarva + '</span>';
+        if (n.bhinna !== null && n.bhinna !== undefined) {
+            detail += ' &nbsp; பின்னாஷ்டகம் <span class="' + bhinnaClass(n.bhinna) + '">' + n.bhinna + '</span>';
+        }
+    }
+    div.innerHTML =
+        '<div class="now-level">' + levelName + '</div>' +
+        '<div class="now-lord">' + (n.lord_ta || n.lord) + '</div>' +
+        '<div class="now-detail">' + detail + '<br>' + fmtRange(n.start, n.end, true) + '</div>';
+    return div;
+}
+
+async function loadDasha120() {
+    const container = document.getElementById('d120AccordionContainer');
+    container.innerHTML = '<div class="loading-txt">தசா தரவு ஏற்றப்படுகிறது...</div>';
+    try {
+        const birth = getBirthFormValues();
+        const res = await fetch('/get_dasha_120', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ dob: birth.dob, tob: birth.tob })
+        });
+        const data = await res.json();
+        if (data.status !== 'success') { container.innerHTML = '<div class="loading-txt">பிழை</div>'; return; }
+        container.innerHTML = '';
+        const LEVEL_META = [
+            { cls: 'acc-dasha', label: function(n, i) { return '<b>' + (i+1) + '. ' + (n.lord_ta || n.lord) + ' தசா</b> (' + n.years + ' ஆண்டு) ' + fmtRange(n.start, n.end) + nodeMeta(n); } },
+            { cls: 'acc-bhukti', label: function(n) { return '<b>' + (n.lord_ta || n.lord) + ' புத்தி</b> ' + fmtRange(n.start, n.end) + nodeMeta(n); } },
+            { cls: 'acc-antara', label: function(n) { return '<b>அந்தரம்: ' + (n.lord_ta || n.lord) + '</b> ' + fmtRange(n.start, n.end) + nodeMeta(n); } },
+            { cls: 'acc-sookshma', label: function(n) { return '<b>சூக்ஷ்மம்: ' + (n.lord_ta || n.lord) + '</b> ' + fmtRange(n.start, n.end, true) + nodeMeta(n); } },
+            { cls: 'acc-prana', label: function(n) { return '<b>பிராணன்: ' + (n.lord_ta || n.lord) + '</b> ' + fmtRange(n.start, n.end, true) + nodeMeta(n); }, leaf: true }
+        ];
+        data.mahadasas.forEach(function(md, idx) {
+            container.appendChild(buildAccordionNode(md, 0, idx, LEVEL_META));
+        });
+    } catch (e) {
+        container.innerHTML = '<div class="loading-txt">ஏற்ற முடியவில்லை</div>';
+    }
+}
+
+function buildAccordionNode(node, depth, idx, LEVEL_META) {
+    const meta = LEVEL_META[depth];
+    if (meta.leaf) {
+        const row = document.createElement('div');
+        row.className = 'acc-prana-row';
+        row.innerHTML = meta.label(node);
+        return row;
+    }
+    const item = document.createElement('div');
+    item.className = meta.cls + '-item';
+    const head = document.createElement('div');
+    head.className = meta.cls + '-head';
+    head.innerHTML = meta.label(node, idx);
+    const body = document.createElement('div');
+    body.className = meta.cls + '-body';
+    let loaded = false;
+    head.onclick = function() {
+        const isOpen = body.style.display === 'block';
+        body.style.display = isOpen ? 'none' : 'block';
+        if (!isOpen && !loaded && depth < 4) {
+            loaded = true;
+            body.innerHTML = '<div class="loading-txt">ஏற்றப்படுகிறது...</div>';
+            fetch('/get_dasha_children', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ lord: node.lord, start: node.start, years: node.years, level: depth + 1 })
+            })
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+                body.innerHTML = '';
+                if (d.status === 'success' && d.children) {
+                    d.children.forEach(function(child, i) {
+                        body.appendChild(buildAccordionNode(child, depth + 1, i, LEVEL_META));
+                    });
+                }
+            })
+            .catch(function() { body.innerHTML = '<div class="loading-txt">பிழை</div>'; });
+        }
+    };
+    item.appendChild(head);
+    item.appendChild(body);
+    return item;
+}
+</script>
+<script>
+function renderSpudamTable(spudamList) {
+    const tbody = document.getElementById('spudamTableBody');
+    tbody.innerHTML = '';
+    spudamList.forEach(function(item) {
+        const tr = document.createElement('tr');
+        let badgeClass = 'badge-atchi';
+        if (item.status && item.status.indexOf('உச்சம்') >= 0) badgeClass = 'badge-uccham';
+        else if (item.status && item.status.indexOf('நீசம்') >= 0) badgeClass = 'badge-neesam';
+        const karakaTag = (item.karaka && item.karaka !== '-')
+            ? '<span class="status-badge badge-karaka">' + item.karaka + '</span>' : '-';
+        tr.innerHTML =
+            '<td><b>' + (item.body || '') + '</b></td>' +
+            '<td>' + (item.rasi || item.sign || '') + '</td>' +
+            '<td>' + (item.dms || item.deg_str || '') + '</td>' +
+            '<td><b>' + (item.nak_pada || '') + '</b></td>' +
+            '<td>' + (item.special2 || '') + '</td>' +
+            '<td>' + karakaTag + '</td>' +
+            '<td><span class="status-badge ' + badgeClass + '">' + (item.status || '-') + '</span></td>';
+        tbody.appendChild(tr);
+    });
+}
+
+function renderAshtakavargaCharts(ashtakaData) {
+    const container = document.getElementById('ashtakaChartsContainer');
+    container.innerHTML = '';
+    if (ashtakaData.sarva) {
+        const scores = {};
+        ashtakaData.sarva.forEach(function(val, idx) { scores[String(idx + 1)] = val; });
+        container.appendChild(createAshtakaChartBox('சர்வ அஷ்டவர்க்கம்', scores));
+    }
+    if (ashtakaData.prasthara) {
+        const order = ['சூரியன்','சந்திரன்','செவ்வாய்','புதன்','குரு','சுக்கிரன்','சனி'];
+        order.forEach(function(g) {
+            if (ashtakaData.prasthara[g]) {
+                container.appendChild(createAshtakaChartBox(g + ' அஷ்டவர்க்கம்', ashtakaData.prasthara[g]));
+            }
+        });
+    }
+}
+
+function createAshtakaChartBox(titleText, scoresMap) {
+    const box = document.createElement('div');
+    box.className = 'ashtaka-box';
+    box.innerHTML = '<div class="ashtaka-title">' + titleText + '</div>';
+    const gridDiv = document.createElement('div');
+    gridDiv.className = 'rasi-grid';
+    const boxMap = [12, 1, 2, 3, 11, 'center', 4, 10, 'center', 5, 9, 8, 7, 6];
+    boxMap.forEach(function(pos) {
+        const div = document.createElement('div');
+        if (pos === 'center') {
+            if (!gridDiv.querySelector('.cell-center')) {
+                div.className = 'cell-center';
+                div.innerText = titleText.split(' ')[0];
+                gridDiv.appendChild(div);
+            }
+        } else {
+            div.className = 'cell';
+            const signName = SIGNS_TA[pos - 1];
+            const bindu = scoresMap[String(pos)] !== undefined ? scoresMap[String(pos)] : 0;
+            div.innerHTML = '<span class="sign-label">' + signName + '</span><span class="bindu-val">' + bindu + '</span>';
+            gridDiv.appendChild(div);
+        }
+    });
+    box.appendChild(gridDiv);
+    return box;
+}
+
+function updateComparisonView() {
+    if (!globalVargaData || globalVargaData.length === 0) return;
+    const d1Obj = globalVargaData[0];
+    const d1Box = document.getElementById('d1ChartBox');
+    d1Box.innerHTML = '';
+    d1Box.appendChild(createChartBox(d1Obj.name, d1Obj.grid));
+    const selectBox = document.getElementById('vargaSelector');
+    const selBox = document.getElementById('selectedVargaBox');
+    selBox.innerHTML = '';
+    if (selectBox.value === 'kochara') {
+        if (window._kocharaGrid) {
+            const saveHl = globalHouseHighlights;
+            globalHouseHighlights = {};
+            selBox.appendChild(createChartBox('கோச்சாரம் (இன்று)', window._kocharaGrid));
+            globalHouseHighlights = saveHl;
+        } else {
+            selBox.innerHTML = '<div class="loading-txt">கோச்சார தரவு ஏற்றப்படுகிறது...</div>';
+        }
+        return;
+    }
+    const selectedIdx = parseInt(selectBox.value, 10);
+    const selectedObj = globalVargaData[selectedIdx] || d1Obj;
+    selBox.appendChild(createChartBox(selectedObj.name, selectedObj.grid));
+}
+
+function createChartBox(titleText, gridData) {
+    const box = document.createElement('div');
+    box.className = 'chart-box';
+    box.innerHTML = '<div class="chart-title">' + titleText + '</div>';
+    const gridDiv = document.createElement('div');
+    gridDiv.className = 'rasi-grid';
+    const boxMap = [12, 1, 2, 3, 11, 'center', 4, 10, 'center', 5, 9, 8, 7, 6];
+    boxMap.forEach(function(pos) {
+        const div = document.createElement('div');
+        if (pos === 'center') {
+            if (!gridDiv.querySelector('.cell-center')) {
+                div.className = 'cell-center';
+                div.innerText = titleText.split(' ')[0];
+                gridDiv.appendChild(div);
+            }
+        } else {
+            const cellDiv = document.createElement('div');
+            const houseObj = (gridData && gridData[String(pos)]) ? gridData[String(pos)] : { planets: [] };
+            cellDiv.className = 'cell';
+            let htmlContent = '';
+            if (houseObj.planets) {
+                htmlContent = houseObj.planets.map(function(obj) {
+                    const code = obj.code ? '<span style="font-size:9px;color:#666;"> (' + obj.code + ')</span>' : '';
+                    return '<div style="padding:0 2px;"><b>' + obj.name + '</b>' + code + '</div>';
+                }).join('');
+            }
+            cellDiv.innerHTML = htmlContent;
+            const signIdx = pos - 1;
+            const hl = globalHouseHighlights[String(signIdx)];
+            if (hl && hl.length > 0) {
+                const colors = hl.map(function(h) { return h.color; });
+                cellDiv.style.background = colors.length === 1 ? colors[0] : 'linear-gradient(135deg, ' + colors.join(', ') + ')';
+                cellDiv.title = hl.map(function(h) { return h.label; }).join(', ');
+            }
+            gridDiv.appendChild(cellDiv);
+        }
+    });
+    box.appendChild(gridDiv);
+    const btn = document.createElement('button');
+    btn.textContent = 'பலன்';
+    btn.style.cssText = 'width:100%;margin-top:8px;padding:7px;background:#8b0000;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px;font-weight:bold;';
+    btn.onclick = function() { showPalan(titleText, gridData); };
+    box.appendChild(btn);
+    return box;
+}
+
+function showPalan(titleText, gridData) {
+    alert(titleText + '\n\nபலன் விதிகள் இன்னும் சேர்க்கப்படவில்லை.');
+}
+
+function exportCharts() {
+    window.location.href = '/export_all_charts';
+}
+
+async function importCharts(inp) {
+    const f = inp.files && inp.files[0];
+    if (!f) return;
+    try {
+        const txt = await f.text();
+        const obj = JSON.parse(txt);
+        const res = await fetch('/import_charts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(obj)
+        });
+        const d = await res.json();
+        if (d.status === 'success') {
+            alert(d.imported + ' ஜாதகங்கள் மீட்டெடுக்கப்பட்டன');
+            loadSavedChartsList();
+        } else {
+            alert('பிழை: ' + d.message);
+        }
+    } catch (e) { alert('கோப்பைப் படிக்க முடியவில்லை'); }
+    inp.value = '';
+}
+
+async function loadSavedChartsList() {
+    try {
+        const res = await fetch('/list_charts');
+        const data = await res.json();
+        const sel = document.getElementById('savedChartsSelect');
+        sel.innerHTML = '<option value="">-- தேர்ந்தெடுக்கவும் --</option>';
+        if (data.status === 'success') {
+            data.charts.forEach(function(name) {
+                const opt = document.createElement('option');
+                opt.value = name; opt.textContent = name;
+                sel.appendChild(opt);
+            });
+        }
+    } catch (e) {}
+}
+
+async function saveCurrentChart() {
+    const defaultName = window._openedChart || document.getElementById('name').value || 'jathagam';
+    const chartName = prompt('ஜாதகத்தின் பெயரை உள்ளிடவும்:', defaultName);
+    if (!chartName) return;
+    const birth = getBirthFormValues();
+    const payload = {
+        name: chartName,
+        person_name: document.getElementById('name').value,
+        place_name: (document.getElementById('place_name') || {}).value || '',
+        gender: document.getElementById('gender').value,
+        dob_day: document.getElementById('dob_day').value,
+        dob_month: document.getElementById('dob_month').value,
+        dob_year: document.getElementById('dob_year').value,
+        tob_hour: document.getElementById('tob_hour').value,
+        tob_min: document.getElementById('tob_min').value,
+        tob_sec: document.getElementById('tob_sec').value,
+        tob_ampm: document.getElementById('tob_ampm').value,
+        lat: birth.lat, lon: birth.lon
+    };
+    try {
+        const res = await fetch('/save_chart', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.status === 'success') {
+            window._openedChart = chartName;
+            alert('சேமிக்கப்பட்டது');
+            loadSavedChartsList();
+        } else {
+            alert('பிழை: ' + data.message);
+        }
+    } catch (e) { alert('சேமிக்க முடியவில்லை'); }
+}
+
+async function openSelectedChart() {
+    const sel = document.getElementById('savedChartsSelect');
+    const name = sel.value;
+    if (!name) { alert('ஒரு ஜாதகத்தைத் தேர்ந்தெடுக்கவும்'); return; }
+    try {
+        const res = await fetch('/get_chart/' + encodeURIComponent(name));
+        const data = await res.json();
+        if (data.status !== 'success') { alert('பிழை'); return; }
+        const c = data.chart || data.data;
+        if (c.person_name) document.getElementById('name').value = c.person_name;
+        else if (c.name) document.getElementById('name').value = c.name;
+        if (c.place_name && document.getElementById('place_name')) document.getElementById('place_name').value = c.place_name;
+        if (c.gender) document.getElementById('gender').value = c.gender;
+        if (c.dob_day) document.getElementById('dob_day').value = c.dob_day;
+        if (c.dob_month) document.getElementById('dob_month').value = c.dob_month;
+        if (c.dob_year) document.getElementById('dob_year').value = c.dob_year;
+        if (c.tob_hour) document.getElementById('tob_hour').value = c.tob_hour;
+        if (c.tob_min) document.getElementById('tob_min').value = c.tob_min;
+        if (c.tob_sec) document.getElementById('tob_sec').value = c.tob_sec;
+        if (c.tob_ampm) document.getElementById('tob_ampm').value = c.tob_ampm;
+        if (c.lat) document.getElementById('birth_lat').value = c.lat;
+        if (c.lon) document.getElementById('birth_lon').value = c.lon;
+        window._openedChart = name;
+        calculateJathagam();
+    } catch (e) { alert('திறக்க முடியவில்லை'); }
+}
+
+async function deleteSelectedChart() {
+    const sel = document.getElementById('savedChartsSelect');
+    const name = sel.value;
+    if (!name) { alert('ஒரு ஜாதகத்தைத் தேர்ந்தெடுக்கவும்'); return; }
+    if (!confirm(name + ' நீக்கவா?')) return;
+    try {
+        await fetch('/delete_chart/' + encodeURIComponent(name), { method: 'DELETE' });
+        loadSavedChartsList();
+    } catch (e) { alert('நீக்க முடியவில்லை'); }
+}
+</script>
+</body>
+</html>
+
+
+
