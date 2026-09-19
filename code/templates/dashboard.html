@@ -221,6 +221,41 @@ h2 { padding-bottom: 5px; }
   <div id="d16MethodsContainer" style="display:none;margin-top:15px;"></div>
 </div>
 
+<div style="margin-bottom:25px;">
+  <button onclick="toggleGrp('pakshi')" id="pakshiBtn" style="width:100%;padding:12px;background:#00695c;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:15px;font-weight:bold;">பஞ்சபட்சி வேளை அட்டவணை ▼</button>
+  <div id="pakshiMethodsContainer" style="display:none;margin-top:15px;background:#e0f2f1;border:1px solid #4db6ac;border-radius:8px;padding:15px;">
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
+      <label style="font-size:12px;font-weight:bold;color:#00695c;">நாள்:</label>
+      <input type="date" id="pakshiDate" style="padding:5px;font-size:13px;">
+      <button onclick="loadPakshi()" style="padding:6px 14px;background:#00695c;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:bold;">காட்டு</button>
+      <span id="pakshiBirth" style="font-size:12px;color:#004d40;font-weight:bold;"></span>
+    </div>
+    <div id="pakshiTable"></div>
+  </div>
+</div>
+
+<div style="margin-bottom:25px;">
+  <button onclick="toggleGrp('rules')" id="rulesBtn" style="width:100%;padding:12px;background:#4a148c;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:15px;font-weight:bold;">பலன் விதிகள் — சேர்க்க / திருத்த ▼</button>
+  <div id="rulesMethodsContainer" style="display:none;margin-top:15px;background:#faf5ff;border:1px solid #d1c4e9;border-radius:8px;padding:15px;">
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;">
+      <label style="font-size:12px;font-weight:bold;color:#4a148c;">வர்க்கம்:</label>
+      <select id="ruleVarga" style="padding:5px;font-size:12px;"><option value="ALL" selected>அனைத்து வர்க்கம்</option></select>
+      <span style="font-size:11px;color:#666;">திருத்தும் விதி எண்: <b id="ruleEditId">புதிது</b></span>
+    </div>
+    <div style="font-size:11px;color:#666;margin-bottom:6px;">விதி (எ.கா. <code>sun.bhava=10</code> அல்லது <code>saturn.sarva&gt;30 &amp; saturn.bhava=10</code>)</div>
+    <textarea id="ruleText" rows="2" style="width:100%;padding:8px;font-size:13px;border:1px solid #b39ddb;border-radius:4px;box-sizing:border-box;"></textarea>
+    <div style="font-size:11px;color:#666;margin:8px 0 6px;">பலன்</div>
+    <textarea rows="3" style="width:100%;padding:8px;font-size:13px;border:1px solid #b39ddb;border-radius:4px;box-sizing:border-box;" id="rulePalan"></textarea>
+    <div style="font-size:11px;color:#666;margin:8px 0 6px;">பரிகாரம்</div>
+    <textarea id="ruleParikaram" rows="2" style="width:100%;padding:8px;font-size:13px;border:1px solid #b39ddb;border-radius:4px;box-sizing:border-box;"></textarea>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button onclick="saveRule()" style="flex:1;padding:10px;background:#2e7d32;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:13px;font-weight:bold;">சேமி</button>
+      <button onclick="clearRuleForm()" style="padding:10px 16px;background:#757575;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:13px;">புதிது</button>
+    </div>
+    <div id="rulesList" style="margin-top:15px;"></div>
+  </div>
+</div>
+
 <h2 style="color:#8b0000;border-bottom:2px solid #8b0000;">அனைத்து வர்க்கச் சக்கரங்கள்:</h2>
 <div class="charts-container" id="allVargaChartsContainer"></div>
 </div>
@@ -333,6 +368,7 @@ window.onload = function() {
     populateAllDropdowns();
     clearForm();
     loadSavedChartsList();
+    loadRules();
 };
 
 function clearForm() {
@@ -414,7 +450,7 @@ async function calculateJathagam() {
         if (data.status === 'success') {
             if (data.longitudes) { lastLongitudes = data.longitudes; buildSpudamEditor(); }
             if (data.spudam_list) renderSpudamTable(data.spudam_list);
-            if (data.ashtakavarga) renderAshtakavargaCharts(data.ashtakavarga);
+            if (data.ashtakavarga) { window._lastAshtaka = data.ashtakavarga; renderAshtakavargaCharts(data.ashtakavarga); }
             globalHouseHighlights = data.house_highlights || {};
             const al = document.getElementById('vargaAlert');
             if (al) {
@@ -467,6 +503,7 @@ async function calculateJathagam() {
                 }
                 renderMethodGroup('d3MethodsContainer', data.d3_methods, '#e0f2f1', '#00695c', '#4db6ac');
                 renderMethodGroup('d16MethodsContainer', data.d16_methods, '#fff3e0', '#e65100', '#ffb74d');
+                fillRuleVargaOptions();
                 const all = document.getElementById('allVargaChartsContainer');
                 all.innerHTML = '';
                 globalVargaData.forEach(function(co) {
@@ -548,6 +585,122 @@ async function applySpudamEdit() {
         renderMethodGroup('d16MethodsContainer', d.d16_methods, '#fff3e0', '#e65100', '#ffb74d');
         alert('திருத்திய ஸ்புடத்தில் கணக்கிடப்பட்டது');
     } catch (e) { alert('கணக்கிட முடியவில்லை'); }
+}
+
+let _editRuleId = null;
+
+function clearRuleForm() {
+    _editRuleId = null;
+    document.getElementById('ruleEditId').textContent = 'புதிது';
+    document.getElementById('ruleText').value = '';
+    document.getElementById('rulePalan').value = '';
+    document.getElementById('ruleParikaram').value = '';
+}
+
+async function saveRule() {
+    const body = {
+        varga: document.getElementById('ruleVarga').value,
+        rule: document.getElementById('ruleText').value,
+        palan: document.getElementById('rulePalan').value,
+        parikaram: document.getElementById('ruleParikaram').value
+    };
+    if (_editRuleId) body.id = _editRuleId;
+    if (!body.rule.trim()) { alert('விதியை உள்ளிடவும்'); return; }
+    const res = await fetch('/add_rule', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    });
+    const d = await res.json();
+    if (d.status === 'success') { clearRuleForm(); loadRules(); }
+    else alert('பிழை: ' + d.message);
+}
+
+async function loadRules() {
+    const box = document.getElementById('rulesList');
+    if (!box) return;
+    const res = await fetch('/list_rules');
+    const d = await res.json();
+    const rs = (d.rules || []).filter(function(r) { return r.rule; });
+    if (!rs.length) { box.innerHTML = '<div style="font-size:12px;color:#888;">விதிகள் இல்லை</div>'; return; }
+    box.innerHTML = '<div style="font-size:12px;font-weight:bold;color:#4a148c;margin-bottom:8px;">சேமித்த விதிகள் (' + rs.length + ')</div>';
+    rs.forEach(function(r) {
+        const d1 = document.createElement('div');
+        d1.style.cssText = 'background:#fff;border:1px solid #e1d5f0;border-radius:5px;padding:8px 10px;margin-bottom:6px;font-size:12px;';
+        d1.innerHTML = '<div style="display:flex;justify-content:space-between;gap:8px;">' +
+            '<div style="flex:1;"><b>' + r.varga + '</b> — <code>' + r.rule + '</code>' +
+            '<div style="color:#2e7d32;margin-top:3px;">' + (r.palan || '') + '</div>' +
+            (r.parikaram ? '<div style="color:#e65100;margin-top:2px;">பரிகாரம்: ' + r.parikaram + '</div>' : '') +
+            '</div><div style="display:flex;flex-direction:column;gap:4px;">' +
+            '<button onclick="editRule(' + r.id + ')" style="padding:3px 8px;font-size:11px;background:#1976d2;color:#fff;border:none;border-radius:3px;cursor:pointer;">திருத்து</button>' +
+            '<button onclick="delRule(' + r.id + ')" style="padding:3px 8px;font-size:11px;background:#c62828;color:#fff;border:none;border-radius:3px;cursor:pointer;">நீக்கு</button>' +
+            '</div></div>';
+        box.appendChild(d1);
+    });
+    window._allRules = rs;
+}
+
+async function editRule(id) {
+    const r = (window._allRules || []).find(function(x) { return x.id === id; });
+    if (!r) return;
+    _editRuleId = id;
+    document.getElementById('ruleEditId').textContent = id;
+    document.getElementById('ruleVarga').value = r.varga;
+    document.getElementById('ruleText').value = r.rule;
+    document.getElementById('rulePalan').value = r.palan || '';
+    document.getElementById('ruleParikaram').value = r.parikaram || '';
+    document.getElementById('rulesMethodsContainer').scrollIntoView({behavior:'smooth'});
+}
+
+async function delRule(id) {
+    if (!confirm('இந்த விதியை நீக்கவா?')) return;
+    await fetch('/delete_rule/' + id, { method: 'DELETE' });
+    loadRules();
+}
+
+function fillRuleVargaOptions() {
+    const sel = document.getElementById('ruleVarga');
+    if (!sel || sel.options.length > 1) return;
+    (globalVargaData || []).forEach(function(co) {
+        const key = co.name.split(' ')[0];
+        const o = document.createElement('option');
+        o.value = key; o.textContent = co.name;
+        sel.appendChild(o);
+    });
+}
+
+async function loadPakshi() {
+    const box = document.getElementById('pakshiTable');
+    if (!box) return;
+    box.innerHTML = '<div class="loading-txt">ஏற்றப்படுகிறது...</div>';
+    try {
+        const birth = getBirthFormValues();
+        const body = { dob: birth.dob, tob: birth.tob, lat: birth.lat, lon: birth.lon };
+        const dt = document.getElementById('pakshiDate').value;
+        if (dt) body.date = dt;
+        const res = await fetch('/get_pakshi', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        const d = await res.json();
+        if (d.status !== 'success') { box.innerHTML = '<div class="loading-txt">பிழை: ' + d.message + '</div>'; return; }
+        document.getElementById('pakshiBirth').textContent = 'ஜென்மப் பட்சி: ' + d.birth_pakshi + ' | ' + d.date + ' ' + d.weekday;
+        let h = '<table style="width:100%;border-collapse:collapse;font-size:13px;background:#fff;">';
+        h += '<tr style="background:#00695c;color:#fff;"><th style="padding:7px;text-align:left;">நேரம்</th><th style="padding:7px;text-align:left;">பட்சி</th><th style="padding:7px;text-align:left;">செயல்</th></tr>';
+        let lastPhase = '';
+        (d.rows || []).forEach(function(r) {
+            if (r.phase !== lastPhase) {
+                h += '<tr style="background:#b2dfdb;"><td colspan="3" style="padding:5px 7px;font-weight:bold;color:#004d40;">' + r.phase + '</td></tr>';
+                lastPhase = r.phase;
+            }
+            const bg = r.good ? '#e8f5e9' : '#fff';
+            const col = r.good ? '#2e7d32' : '#555';
+            h += '<tr style="background:' + bg + ';"><td style="padding:6px 7px;border-bottom:1px solid #eee;">' + r.from + ' - ' + r.to + '</td>' +
+                 '<td style="padding:6px 7px;border-bottom:1px solid #eee;font-weight:bold;">' + r.pakshi + '</td>' +
+                 '<td style="padding:6px 7px;border-bottom:1px solid #eee;color:' + col + ';font-weight:bold;">' + r.act + (r.good ? ' ✓' : '') + '</td></tr>';
+        });
+        h += '</table>';
+        box.innerHTML = h;
+    } catch (e) { box.innerHTML = '<div class="loading-txt">ஏற்ற முடியவில்லை</div>'; }
 }
 
 function renderMethodGroup(boxId, methods, bg, fg, bd) {
@@ -974,8 +1127,132 @@ function createChartBox(titleText, gridData) {
     return box;
 }
 
-function showPalan(titleText, gridData) {
-    alert(titleText + '\n\nபலன் விதிகள் இன்னும் சேர்க்கப்படவில்லை.');
+async function showPalan(titleText, gridData) {
+    const vkey = titleText.split(' ')[0];
+    let facts = {};
+    try {
+        const birth = getBirthFormValues();
+        const fr = await fetch('/rule_facts', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ dob: birth.dob, tob: birth.tob, lat: birth.lat, lon: birth.lon, varga: vkey })
+        });
+        const fd = await fr.json();
+        facts = fd.facts || {};
+    } catch (e) { facts = buildFacts(gridData); }
+    try {
+        const res = await fetch('/match_rules', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ varga: vkey, facts: facts })
+        });
+        const d = await res.json();
+        const ms = d.matched || [];
+        showPalanBox(titleText, ms);
+    } catch (e) { alert('பலன் ஏற்ற முடியவில்லை'); }
+}
+
+const GKEY = {'லக்னம்':'lagna','சூரியன்':'sun','சந்திரன்':'moon','செவ்வாய்':'mars',
+              'புதன்':'mercury','குரு':'jupiter','சுக்கிரன்':'venus','சனி':'saturn',
+              'ராகு':'rahu','கேது':'ketu','குளிகன்':'gulika'};
+const RASI_KEY = ['aries','taurus','gemini','cancer','leo','virgo','libra','scorpio','sagittarius','capricorn','aquarius','pisces'];
+
+function buildFacts(gridData) {
+    const f = {};
+    let lagnaHouse = 1;
+    for (let h = 1; h <= 12; h++) {
+        const cell = (gridData && gridData[String(h)]) || { planets: [] };
+        (cell.planets || []).forEach(function(p) {
+            if (p.name === 'லக்னம்') lagnaHouse = h;
+        });
+    }
+    for (let h = 1; h <= 12; h++) {
+        const cell = (gridData && gridData[String(h)]) || { planets: [] };
+        (cell.planets || []).forEach(function(p) {
+            const k = GKEY[p.name];
+            if (!k) return;
+            f[k + '.rasi'] = RASI_KEY[h - 1];
+            f[k + '.rasi_ta'] = SIGNS_TA[h - 1];
+            f[k + '.bhava'] = ((h - lagnaHouse + 12) % 12) + 1;
+            f[k + '.sign'] = h;
+        });
+    }
+    // குழு உண்மைகள் — சுபர்/அசுபர்
+    const PAPA = ['mars','saturn','rahu','ketu'];
+    const SUBHA = ['jupiter','venus','mercury','moon'];
+    const NATURAL_PAPA = ['sun','mars','saturn','rahu','ketu'];
+    for (let b = 1; b <= 12; b++) {
+        let pc = 0, sc = 0, npc = 0;
+        PAPA.forEach(function(g) { if (f[g + '.bhava'] === b) pc++; });
+        SUBHA.forEach(function(g) { if (f[g + '.bhava'] === b) sc++; });
+        NATURAL_PAPA.forEach(function(g) { if (f[g + '.bhava'] === b) npc++; });
+        f['papa.count.' + b] = pc;
+        f['subha.count.' + b] = sc;
+        f['papa_all.count.' + b] = npc;
+        if (pc > 0) f['papa.bhava'] = (f['papa.bhava'] === undefined) ? b : f['papa.bhava'];
+        if (sc > 0) f['subha.bhava'] = (f['subha.bhava'] === undefined) ? b : f['subha.bhava'];
+    }
+    // ஒவ்வொரு பாவத்திலும் அசுபர்/சுபர் உள்ளதா
+    for (let b = 1; b <= 12; b++) {
+        f['papa.in.' + b] = f['papa.count.' + b] > 0 ? 1 : 0;
+        f['subha.in.' + b] = f['subha.count.' + b] > 0 ? 1 : 0;
+    }
+    // கர்த்தரி யோகம் — இரு பக்கமும் அசுபர்
+    for (let b = 1; b <= 12; b++) {
+        const prev = ((b - 2 + 12) % 12) + 1;
+        const next = (b % 12) + 1;
+        f['papa_kartari.' + b] = (f['papa.count.' + prev] > 0 && f['papa.count.' + next] > 0) ? 1 : 0;
+        f['subha_kartari.' + b] = (f['subha.count.' + prev] > 0 && f['subha.count.' + next] > 0) ? 1 : 0;
+    }
+    // எதிர் அச்சு ஜோடிகள் — 2-12, 3-11, 4-10, 5-9, 6-8
+    [[2,12],[3,11],[4,10],[5,9],[6,8]].forEach(function(pr) {
+        const key = 'axis' + pr[0] + '_' + pr[1];
+        f[key + '.papa'] = (f['papa.count.' + pr[0]] + f['papa.count.' + pr[1]]) > 0 ? 1 : 0;
+        f[key + '.subha'] = (f['subha.count.' + pr[0]] + f['subha.count.' + pr[1]]) > 0 ? 1 : 0;
+    });
+
+    if (window._lastAshtaka) {
+        const sv = window._lastAshtaka.sarva || [];
+        Object.keys(GKEY).forEach(function(ta) {
+            const k = GKEY[ta];
+            const sg = f[k + '.sign'];
+            if (sg && sv[sg - 1] !== undefined) f[k + '.sarva'] = sv[sg - 1];
+        });
+        const pr = window._lastAshtaka.prasthara || {};
+        Object.keys(pr).forEach(function(ta) {
+            const k = GKEY[ta];
+            const sg = f[k + '.sign'];
+            if (k && sg && pr[ta][String(sg)] !== undefined) f[k + '.bhinna'] = pr[ta][String(sg)];
+        });
+    }
+    return f;
+}
+
+function showPalanBox(title, matches) {
+    let box = document.getElementById('palanOverlay');
+    if (!box) {
+        box = document.createElement('div');
+        box.id = 'palanOverlay';
+        box.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:18px;';
+        box.onclick = function(e) { if (e.target === box) box.style.display = 'none'; };
+        document.body.appendChild(box);
+    }
+    let inner = '<div style="background:#fff;border-radius:10px;max-width:560px;width:100%;max-height:82vh;overflow-y:auto;padding:20px;">';
+    inner += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">' +
+             '<div style="font-size:17px;font-weight:bold;color:#8b0000;">' + title + ' — பலன்</div>' +
+             '<button onclick="document.getElementById(\'palanOverlay\').style.display=\'none\'" style="padding:5px 12px;background:#757575;color:#fff;border:none;border-radius:4px;cursor:pointer;">மூடு</button></div>';
+    if (!matches.length) {
+        inner += '<div style="color:#888;font-size:13px;">இந்த ஜாதகத்திற்குப் பொருந்தும் விதிகள் இல்லை.</div>';
+    } else {
+        matches.forEach(function(m) {
+            inner += '<div style="border-left:4px solid #8b0000;background:#fff8f0;border-radius:5px;padding:10px 12px;margin-bottom:10px;">' +
+                     '<div style="font-size:11px;color:#888;"><code>' + m.rule + '</code></div>' +
+                     '<div style="font-size:14px;color:#333;margin-top:5px;">' + (m.palan || '') + '</div>' +
+                     (m.parikaram ? '<div style="font-size:13px;color:#e65100;margin-top:6px;"><b>பரிகாரம்:</b> ' + m.parikaram + '</div>' : '') +
+                     '</div>';
+        });
+    }
+    inner += '</div>';
+    box.innerHTML = inner;
+    box.style.display = 'flex';
 }
 
 function exportCharts() {
