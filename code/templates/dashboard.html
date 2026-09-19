@@ -668,6 +668,34 @@ function fillRuleVargaOptions() {
     });
 }
 
+function pkNode(r, depth) {
+    const pad = [10, 22, 34][depth] || 10;
+    const bgs = ['#ffffff', '#f7fbfa', '#f0f7f6'];
+    const item = document.createElement('div');
+    item.style.cssText = 'border:1px solid #cfe8e4;border-radius:5px;margin-bottom:5px;overflow:hidden;';
+    const head = document.createElement('div');
+    const good = r.good;
+    head.style.cssText = 'padding:7px 10px 7px ' + pad + 'px;cursor:' + (r.subs && r.subs.length ? 'pointer' : 'default') +
+        ';background:' + (good ? '#e8f5e9' : bgs[depth] || '#fff') + ';font-size:' + (13 - depth) + 'px;display:flex;justify-content:space-between;gap:8px;';
+    head.innerHTML = '<span><b>' + r.from + ' - ' + r.to + '</b> &nbsp; ' + r.pakshi +
+        ' <span style="color:' + (good ? '#2e7d32' : '#777') + ';font-weight:bold;">' + r.act + (good ? ' ✓' : '') + '</span></span>' +
+        (r.subs && r.subs.length ? '<span style="color:#00695c;">▼</span>' : '');
+    const body = document.createElement('div');
+    body.style.display = 'none';
+    if (r.subs && r.subs.length) {
+        r.subs.forEach(function(s) { body.appendChild(pkNode(s, depth + 1)); });
+        head.onclick = function(e) {
+            e.stopPropagation();
+            const op = body.style.display === 'block';
+            body.style.display = op ? 'none' : 'block';
+            head.querySelector('span:last-child').textContent = op ? '▼' : '▲';
+        };
+    }
+    item.appendChild(head);
+    item.appendChild(body);
+    return item;
+}
+
 async function loadPakshi() {
     const box = document.getElementById('pakshiTable');
     if (!box) return;
@@ -684,22 +712,19 @@ async function loadPakshi() {
         const d = await res.json();
         if (d.status !== 'success') { box.innerHTML = '<div class="loading-txt">பிழை: ' + d.message + '</div>'; return; }
         document.getElementById('pakshiBirth').textContent = 'ஜென்மப் பட்சி: ' + d.birth_pakshi + ' | ' + d.date + ' ' + d.weekday;
-        let h = '<table style="width:100%;border-collapse:collapse;font-size:13px;background:#fff;">';
-        h += '<tr style="background:#00695c;color:#fff;"><th style="padding:7px;text-align:left;">நேரம்</th><th style="padding:7px;text-align:left;">பட்சி</th><th style="padding:7px;text-align:left;">செயல்</th></tr>';
+        box.innerHTML = '';
         let lastPhase = '';
         (d.rows || []).forEach(function(r) {
             if (r.phase !== lastPhase) {
-                h += '<tr style="background:#b2dfdb;"><td colspan="3" style="padding:5px 7px;font-weight:bold;color:#004d40;">' + r.phase + '</td></tr>';
+                const ph = document.createElement('div');
+                ph.style.cssText = 'background:#b2dfdb;color:#004d40;font-weight:bold;padding:6px 10px;border-radius:4px;margin:10px 0 6px;';
+                ph.textContent = r.phase;
+                box.appendChild(ph);
                 lastPhase = r.phase;
             }
-            const bg = r.good ? '#e8f5e9' : '#fff';
-            const col = r.good ? '#2e7d32' : '#555';
-            h += '<tr style="background:' + bg + ';"><td style="padding:6px 7px;border-bottom:1px solid #eee;">' + r.from + ' - ' + r.to + '</td>' +
-                 '<td style="padding:6px 7px;border-bottom:1px solid #eee;font-weight:bold;">' + r.pakshi + '</td>' +
-                 '<td style="padding:6px 7px;border-bottom:1px solid #eee;color:' + col + ';font-weight:bold;">' + r.act + (r.good ? ' ✓' : '') + '</td></tr>';
+            box.appendChild(pkNode(r, 0));
         });
-        h += '</table>';
-        box.innerHTML = h;
+
     } catch (e) { box.innerHTML = '<div class="loading-txt">ஏற்ற முடியவில்லை</div>'; }
 }
 
