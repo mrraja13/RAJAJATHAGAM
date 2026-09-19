@@ -28,6 +28,20 @@
    "tob_ampm": "AM",
    "lat": "8.3544",
    "lon": "77.7919"
+  },
+  "Mohamed sir": {
+   "person_name": "Mohamed sir",
+   "place_name": "Andra",
+   "gender": "Male",
+   "dob_day": "27",
+   "dob_month": "07",
+   "dob_year": "2003",
+   "tob_hour": "04",
+   "tob_min": "40",
+   "tob_sec": "40",
+   "tob_ampm": "AM",
+   "lat": "62.5343",
+   "lon": "65.9072"
   }
  }
 }
