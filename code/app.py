@@ -467,13 +467,41 @@ def get_pakshi():
             for i in range(5):
                 pk = (birth_pakshi + i + shift) % 5
                 act = (i + phase * 2 + shift) % 5
+                t0 = a + seg * i
+                t1 = a + seg * (i + 1)
+                subs = []
+                sseg = (t1 - t0) / 5.0
+                for j in range(5):
+                    s0 = t0 + sseg * j
+                    s1 = t0 + sseg * (j + 1)
+                    spk = (pk + j) % 5
+                    sact = (act + j) % 5
+                    subs2 = []
+                    s2seg = (s1 - s0) / 5.0
+                    for k2 in range(5):
+                        subs2.append({
+                            "from": jd_to_hhmm(s0 + s2seg * k2),
+                            "to": jd_to_hhmm(s0 + s2seg * (k2 + 1)),
+                            "pakshi": PAKSHI_NAMES[(spk + k2) % 5],
+                            "act": PAKSHI_ACTS[(sact + k2) % 5],
+                            "good": ((sact + k2) % 5) in (0, 2),
+                        })
+                    subs.append({
+                        "from": jd_to_hhmm(s0),
+                        "to": jd_to_hhmm(s1),
+                        "pakshi": PAKSHI_NAMES[spk],
+                        "act": PAKSHI_ACTS[sact],
+                        "good": sact in (0, 2),
+                        "subs": subs2,
+                    })
                 rows.append({
                     "phase": "பகல்" if phase == 0 else "இரவு",
-                    "from": jd_to_hhmm(a + seg * i),
-                    "to": jd_to_hhmm(a + seg * (i + 1)),
+                    "from": jd_to_hhmm(t0),
+                    "to": jd_to_hhmm(t1),
                     "pakshi": PAKSHI_NAMES[pk],
                     "act": PAKSHI_ACTS[act],
                     "good": act in (0, 2),
+                    "subs": subs,
                 })
 
         return jsonify({"status":"success",
