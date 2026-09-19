@@ -403,6 +403,87 @@ def calc_from_spudam():
     except Exception as e:
         return jsonify({"status":"error","message":str(e)})
 
+
+# ── பஞ்சபட்சி ──
+PAKSHI_NAMES = ["வல்லூறு","ஆந்தை","காகம்","கோழி","மயில்"]
+PAKSHI_ACTS = ["உண்ணல்","நடத்தல்","ஆளல்","உறங்கல்","இறத்தல்"]
+# சுக்ல பட்ச பகல் வரிசை — ஒவ்வொரு பட்சிக்கும் செயல் சுழற்சி
+PAKSHI_DAY_ORDER = [
+    [0,1,2,3,4],
+    [4,0,1,2,3],
+    [3,4,0,1,2],
+    [2,3,4,0,1],
+    [1,2,3,4,0],
+]
+
+def _pakshi_of_nak(nak_idx, sukla):
+    grp = nak_idx // 6 if nak_idx < 25 else 4
+    return (grp % 5) if sukla else ((4 - (grp % 5)) % 5)
+
+@app.route("/get_pakshi", methods=["POST"])
+def get_pakshi():
+    """ஜென்மப் பட்சி + குறிப்பிட்ட நாளுக்கான வேளை அட்டவணை"""
+    try:
+        d = request.get_json(silent=True) or {}
+        dob = d.get("dob", "1979-10-05"); tob = d.get("tob", "10:10:28")
+        lat = float(d.get("lat", LAT)); lon = float(d.get("lon", LON))
+        y, mo, dd = [int(x) for x in dob.split("-")]
+        hh, mm, ss = _parse_tob(tob)
+
+        bl, _ = ae.get_all_sidereal_longitudes(y, mo, dd, hh+mm/60.0+ss/3600.0, lat, lon)
+        moon, sun = bl["Moon"], bl["Sun"]
+        nak = int(moon // (360.0/27))
+        tnum = int(((moon - sun) % 360) // 12) + 1
+        sukla = tnum <= 15
+        birth_pakshi = _pakshi_of_nak(nak, sukla)
+
+        # இலக்கு நாள்
+        tgt = d.get("date")
+        if tgt:
+            ty, tmo, tdd = [int(x) for x in tgt.split("-")]
+        else:
+            n = now_ist()
+            ty, tmo, tdd = n.year, n.month, n.day
+
+        sr, ssj = ae.get_sunrise_sunset(ty, tmo, tdd, lat, lon)
+        nsr, _ = ae.get_sunrise_sunset(ty, tmo, tdd + 1, lat, lon)
+        if sr is None or ssj is None:
+            return jsonify({"status":"error","message":"உதய நேரம் கிடைக்கவில்லை"})
+
+        import swisseph as swe
+        def jd_to_hhmm(j):
+            r = swe.revjul(j)
+            h = r[3] + 5.5
+            if h >= 24: h -= 24
+            return "%02d:%02d" % (int(h), int(round((h % 1) * 60)) % 60)
+
+        wd = datetime(ty, tmo, tdd).strftime("%A")
+        wd_i = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"].index(wd)
+        shift = (wd_i + birth_pakshi) % 5
+
+        rows = []
+        for phase, (a, b) in enumerate([(sr, ssj), (ssj, nsr or (ssj + 0.5))]):
+            seg = (b - a) / 5.0
+            for i in range(5):
+                pk = (birth_pakshi + i + shift) % 5
+                act = (i + phase * 2 + shift) % 5
+                rows.append({
+                    "phase": "பகல்" if phase == 0 else "இரவு",
+                    "from": jd_to_hhmm(a + seg * i),
+                    "to": jd_to_hhmm(a + seg * (i + 1)),
+                    "pakshi": PAKSHI_NAMES[pk],
+                    "act": PAKSHI_ACTS[act],
+                    "good": act in (0, 2),
+                })
+
+        return jsonify({"status":"success",
+                        "birth_pakshi": PAKSHI_NAMES[birth_pakshi],
+                        "date": "%02d-%02d-%04d" % (tdd, tmo, ty),
+                        "weekday": WEEKDAY_TA.get(wd, wd),
+                        "rows": rows})
+    except Exception as e:
+        return jsonify({"status":"error","message":str(e)})
+
 @app.route("/get_basic_info", methods=["POST"])
 def get_basic_info():
     try:
@@ -560,6 +641,313 @@ def import_charts():
         return jsonify({"status": "success", "imported": n})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)})
+
+
+RULES_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "palan_rules.json")
+
+def _load_rules():
+    try:
+        with open(RULES_FILE, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return []
+
+def _save_rules(rules):
+    with open(RULES_FILE, "w", encoding="utf-8") as f:
+        json.dump(rules, f, ensure_ascii=False, indent=1)
+
+
+# ── விதி உண்மைகள் ──
+SIGN_LORD_EN = ["Mars","Venus","Mercury","Moon","Sun","Mercury","Venus","Mars","Jupiter","Saturn","Saturn","Jupiter"]
+EXALT = {"Sun":(0,10.0),"Moon":(1,3.0),"Mars":(9,28.0),"Mercury":(5,15.0),
+         "Jupiter":(3,5.0),"Venus":(11,27.0),"Saturn":(6,20.0)}
+DEBIL = {"Sun":(6,10.0),"Moon":(7,3.0),"Mars":(3,28.0),"Mercury":(11,15.0),
+         "Jupiter":(9,5.0),"Venus":(5,27.0),"Saturn":(0,20.0)}
+OWN_SIGNS_EN = {"Sun":[4],"Moon":[3],"Mars":[0,7],"Mercury":[2,5],
+                "Jupiter":[8,11],"Venus":[1,6],"Saturn":[9,10]}
+DIGBALA = {"Jupiter":1,"Mercury":1,"Moon":4,"Venus":4,"Saturn":7,"Sun":10,"Mars":10}
+MKS_BHAVA = {"Sun":12,"Moon":8,"Mars":7,"Mercury":7,"Jupiter":3,"Venus":6,"Saturn":1}
+VARGA_KARAKA = {"D2":"Jupiter","D3":"Mars","D4":"Moon","D7":"Jupiter","D9":"Venus",
+                "D10":"Sun","D12":"Sun","D24":"Mercury","D30":"Saturn"}
+PAPA_EN = ["Mars","Saturn","Rahu","Ketu"]
+SUBHA_EN = ["Jupiter","Venus","Mercury","Moon"]
+ASPECT_SPECIAL = {"Mars":[4,7,8],"Jupiter":[5,7,9],"Saturn":[3,7,10],
+                  "Rahu":[5,7,9],"Ketu":[5,7,9]}
+
+def _pushkara_navamsa(sign, deg):
+    try:
+        return ae.is_pushkara_navamsa(sign, deg)
+    except Exception:
+        return False
+
+def build_rule_facts(longs, vargas, sarva, bhinnas, varga_key="D1"):
+    f = {}
+    if not longs:
+        return f
+    vsigns = vargas.get(varga_key) or {g: int(v // 30) for g, v in longs.items() if v is not None}
+    d1 = {g: int(v // 30) for g, v in longs.items() if v is not None}
+    lag_sign = vsigns.get("Lagna", d1.get("Lagna", 0))
+
+    def bh(sign):
+        return ((sign - lag_sign) % 12) + 1
+
+    key = {"Sun":"sun","Moon":"moon","Mars":"mars","Mercury":"mercury","Jupiter":"jupiter",
+           "Venus":"venus","Saturn":"saturn","Rahu":"rahu","Ketu":"ketu",
+           "Lagna":"lagna","Gulika":"gulika"}
+
+    # அடிப்படை
+    for g_en, sg in vsigns.items():
+        k = key.get(g_en)
+        if not k:
+            continue
+        f[k + ".sign"] = sg + 1
+        f[k + ".bhava"] = bh(sg)
+        # வர்கோத்தமம் — ஒவ்வொரு வர்க்கத்துடனும்
+        cnt = 0
+        for vk, vmap in vargas.items():
+            if vk == "D1":
+                continue
+            if g_en in vmap and g_en in d1 and vmap[g_en] == d1[g_en]:
+                f[k + ".vargottama." + vk] = 1
+                cnt += 1
+        f[k + ".vargottama.count"] = cnt
+        if varga_key != "D1" and g_en in d1 and sg == d1[g_en]:
+            f[k + ".vargottama"] = 1
+
+    # D1 அடிப்படை நிலைகள்
+    for g_en, L in longs.items():
+        k = key.get(g_en)
+        if not k or L is None or g_en in ("Lagna", "Gulika", "Rahu", "Ketu"):
+            continue
+        sg, dg = int(L // 30), L % 30
+        st = "normal"
+        if g_en in EXALT and sg == EXALT[g_en][0]:
+            st = "uccham"
+        elif g_en in DEBIL and sg == DEBIL[g_en][0]:
+            st = "neecham"
+        elif sg in OWN_SIGNS_EN.get(g_en, []):
+            st = "atchi"
+        f[k + ".status"] = st
+        f[k + ".pushkara"] = 1 if _pushkara_navamsa(sg, dg) else 0
+        if DIGBALA.get(g_en) == bh(vsigns.get(g_en, sg)):
+            f[k + ".digbala"] = 1
+        if MKS_BHAVA.get(g_en) == bh(vsigns.get(g_en, sg)):
+            f[k + ".mks"] = 1
+
+    # அதிபதிகள்
+    for b in range(1, 13):
+        sg = (lag_sign + b - 1) % 12
+        lord = SIGN_LORD_EN[sg]
+        lk = key.get(lord)
+        if lk and (lk + ".bhava") in f:
+            f["lord%d.bhava" % b] = f[lk + ".bhava"]
+            f["lord%d.graha" % b] = lk
+            if b == 1:
+                f["lagna_lord.bhava"] = f[lk + ".bhava"]
+                f["lagna_lord.graha"] = lk
+                f["lagna_lord.dusthana"] = 1 if f[lk + ".bhava"] in (3,6,8,12) else 0
+
+    # பரிவர்த்தனை
+    for g1, s1 in vsigns.items():
+        if g1 in ("Lagna","Gulika","Rahu","Ketu"):
+            continue
+        l1 = SIGN_LORD_EN[s1]
+        if l1 == g1 or l1 not in vsigns:
+            continue
+        s2 = vsigns[l1]
+        if SIGN_LORD_EN[s2] == g1:
+            k1, k2 = key.get(g1), key.get(l1)
+            if k1 and k2:
+                f[k1 + ".parivartana"] = k2
+
+    # அசுப/சுப குழு
+    for b in range(1, 13):
+        pc = sum(1 for g in PAPA_EN if f.get(key[g] + ".bhava") == b)
+        sc = sum(1 for g in SUBHA_EN if f.get(key[g] + ".bhava") == b)
+        f["papa.count." + str(b)] = pc
+        f["subha.count." + str(b)] = sc
+        f["papa.in." + str(b)] = 1 if pc else 0
+        f["subha.in." + str(b)] = 1 if sc else 0
+    for b in range(1, 13):
+        pv = ((b - 2) % 12) + 1
+        nx = (b % 12) + 1
+        f["papa_kartari." + str(b)] = 1 if (f["papa.count." + str(pv)] and f["papa.count." + str(nx)]) else 0
+        f["subha_kartari." + str(b)] = 1 if (f["subha.count." + str(pv)] and f["subha.count." + str(nx)]) else 0
+    for a, bq in [(2,12),(3,11),(4,10),(5,9),(6,8)]:
+        f["axis%d_%d.papa" % (a,bq)] = 1 if (f["papa.count." + str(a)] or f["papa.count." + str(bq)]) else 0
+        f["axis%d_%d.subha" % (a,bq)] = 1 if (f["subha.count." + str(a)] or f["subha.count." + str(bq)]) else 0
+
+    # பார்வை
+    for g_en, sg in vsigns.items():
+        k = key.get(g_en)
+        if not k or g_en in ("Lagna","Gulika"):
+            continue
+        tgts = set([7] + ASPECT_SPECIAL.get(g_en, []))
+        src = bh(sg)
+        for t in tgts:
+            dest = ((src - 1 + t - 1) % 12) + 1
+            f[k + ".aspects." + str(dest)] = 1
+
+    # வர்க்கக் காரகன் லக்னத்தில்
+    vk_g = VARGA_KARAKA.get(varga_key)
+    if vk_g:
+        kk = key.get(vk_g)
+        if kk and f.get(kk + ".bhava") == 1:
+            f["varga_karaka.in_lagna"] = 1
+            f["karako_bhava_nasaya"] = 1
+
+    # வர்க்க லக்னம் D1-க்கு எத்தனையாவது
+    if varga_key != "D1" and "Lagna" in d1:
+        f["varga_lagna.from_d1"] = ((lag_sign - d1["Lagna"]) % 12) + 1
+    # வர்க்க லக்னாதிபதி
+    vl_lord = SIGN_LORD_EN[lag_sign]
+    vlk = key.get(vl_lord)
+    if vlk and (vlk + ".bhava") in f:
+        f["varga_lagna_lord.bhava"] = f[vlk + ".bhava"]
+        f["varga_lagna_lord.graha"] = vlk
+        f["varga_lagna_lord.dusthana"] = 1 if f[vlk + ".bhava"] in (3,6,8,12) else 0
+
+    # அஷ்டவர்க்கம்
+    if sarva:
+        for g_en, sg in vsigns.items():
+            k = key.get(g_en)
+            if k and sg < len(sarva):
+                f[k + ".sarva"] = sarva[sg]
+    if bhinnas:
+        for g_en, pts in bhinnas.items():
+            k = key.get(g_en)
+            sg = vsigns.get(g_en)
+            if k and sg is not None and sg < len(pts):
+                f[k + ".bhinna"] = pts[sg]
+
+    # அஸ்தங்கம் / கிரகணம் / யுத்தம் வீட்டில் லக்னம்
+    try:
+        ast = ae.compute_astangam(longs)
+        kir = ae.compute_kiraganam(longs)
+        yud = ae.compute_graha_yuddha(longs)
+        for g_en in ast:
+            k = key.get(g_en)
+            if k: f[k + ".astangam"] = 1
+        for g_en in kir:
+            k = key.get(g_en)
+            if k: f[k + ".kiraganam"] = 1
+        for g_en in (yud or {}):
+            k = key.get(g_en)
+            if k: f[k + ".yuddha"] = 1
+        for g_en in list(ast) + list(kir) + list(yud or {}):
+            if vsigns.get(g_en) == lag_sign:
+                f["lagna.in_affliction"] = 1
+                if g_en in ast: f["lagna.in_astangam"] = 1
+                if g_en in kir: f["lagna.in_kiraganam"] = 1
+                if g_en in (yud or {}): f["lagna.in_yuddha"] = 1
+    except Exception:
+        pass
+
+    return f
+
+@app.route("/rule_facts", methods=["POST"])
+def rule_facts():
+    try:
+        d = request.get_json(silent=True) or {}
+        dob = d.get("dob", "1979-10-05"); tob = d.get("tob", "10:10:28")
+        lat = float(d.get("lat", LAT)); lon = float(d.get("lon", LON))
+        varga = d.get("varga", "D1")
+        y, mo, dd = [int(x) for x in dob.split("-")]
+        hh, mm, ss = _parse_tob(tob)
+        longs = _safe_longs(y, mo, dd, hh, mm, ss, lat, lon)
+        vargas = ae.compute_all_vargas(longs)
+        signs = {g: int(v // 30) for g, v in longs.items() if v is not None}
+        bhinnas, sarva = ae.compute_ashtakavarga(signs)
+        return jsonify({"status":"success",
+                        "facts": build_rule_facts(longs, vargas, sarva, bhinnas, varga)})
+    except Exception as e:
+        return jsonify({"status":"error","message":str(e)})
+
+@app.route("/list_rules", methods=["GET"])
+def list_rules():
+    return jsonify({"status": "success", "rules": _load_rules()})
+
+@app.route("/add_rule", methods=["POST"])
+def add_rule():
+    try:
+        d = request.get_json(silent=True) or {}
+        rules = _load_rules()
+        rid = d.get("id")
+        item = {
+            "id": rid if rid else (max([r.get("id", 0) for r in rules], default=0) + 1),
+            "varga": d.get("varga", "D1"),
+            "rule": (d.get("rule") or "").strip(),
+            "palan": (d.get("palan") or "").strip(),
+            "parikaram": (d.get("parikaram") or "").strip(),
+        }
+        if not item["rule"]:
+            return jsonify({"status": "error", "message": "விதி காலியாக உள்ளது"})
+        rules = [r for r in rules if r.get("id") != item["id"]]
+        rules.append(item)
+        rules.sort(key=lambda r: r.get("id", 0))
+        _save_rules(rules)
+        return jsonify({"status": "success", "total": len(rules), "id": item["id"]})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route("/delete_rule/<int:rid>", methods=["DELETE"])
+def delete_rule(rid):
+    rules = [r for r in _load_rules() if r.get("id") != rid]
+    _save_rules(rules)
+    return jsonify({"status": "success", "total": len(rules)})
+
+@app.route("/match_rules", methods=["POST"])
+def match_rules():
+    """ஜாதகத்திற்குப் பொருந்தும் விதிகளை மட்டும் திருப்பு"""
+    try:
+        d = request.get_json(silent=True) or {}
+        varga = d.get("varga", "D1")
+        facts = d.get("facts") or {}
+        out = []
+        for r in _load_rules():
+            if r.get("varga") not in (varga, "ALL", ""):
+                continue
+            if _rule_matches(r.get("rule", ""), facts):
+                out.append(r)
+        return jsonify({"status": "success", "matched": out})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+def _rule_matches(rule_text, facts):
+    """எளிய விதி மொழி: graha.bhava=10 & graha.sarva>30"""
+    if not rule_text:
+        return False
+    for part in rule_text.replace("&&", "&").split("&"):
+        part = part.strip()
+        if not part:
+            continue
+        if not _one_cond(part, facts):
+            return False
+    return True
+
+def _one_cond(cond, facts):
+    import re as _re
+    m = _re.match(r"^([\w\.]+)\s*(>=|<=|!=|=|>|<)\s*(.+)$", cond)
+    if not m:
+        return False
+    key, op, val = m.group(1).strip(), m.group(2), m.group(3).strip()
+    actual = facts.get(key)
+    if actual is None:
+        return False
+    if op == "=":
+        opts = [v.strip() for v in val.split(",")]
+        return str(actual) in opts
+    if op == "!=":
+        return str(actual) != val
+    try:
+        a, b = float(actual), float(val)
+    except Exception:
+        return False
+    if op == ">":  return a > b
+    if op == "<":  return a < b
+    if op == ">=": return a >= b
+    if op == "<=": return a <= b
+    return False
 
 @app.route("/list_charts",methods=["GET"])
 def list_charts():
