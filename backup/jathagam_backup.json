@@ -1,20 +1,9 @@
 {
  "version": 1,
  "charts": {
-  "Rajaram": {},
-  "Test": {
-   "dob_day": "05",
-   "dob_month": "10",
-   "dob_year": "1979",
-   "tob_hour": "10",
-   "tob_min": "10",
-   "tob_sec": "28",
-   "tob_ampm": "AM",
-   "lat": "8.3333",
-   "lon": "77.8500",
-   "gender": "Male"
-  },
   "Thenmozhi": {
+   "person_name": "Thenmozhi",
+   "place_name": "அரக்கோணம்",
    "gender": "Female",
    "dob_day": "20",
    "dob_month": "01",
