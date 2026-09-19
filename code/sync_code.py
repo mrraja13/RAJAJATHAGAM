@@ -2,7 +2,7 @@ import os, json, base64, urllib.request, sys
 
 REPO = "mrraja13/RAJAJATHAGAM"
 BASE = os.path.dirname(os.path.abspath(__file__))
-FILES = ["app.py", "astro_engine.py", "templates/dashboard.html", "backup_to_github.py", "sync_code.py"]
+FILES = ["app.py", "astro_engine.py", "templates/dashboard.html", "backup_to_github.py", "sync_code.py", "RESTORE.md"]
 
 def token():
     with open(os.path.expanduser("~/.gh_token")) as f:
