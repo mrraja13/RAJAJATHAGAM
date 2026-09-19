@@ -14,6 +14,20 @@
    "tob_ampm": "AM",
    "lat": "13.0840",
    "lon": "79.6701"
+  },
+  "RAJARAM": {
+   "person_name": "RAJARAM ",
+   "place_name": "Tisayanvilai ",
+   "gender": "Male",
+   "dob_day": "05",
+   "dob_month": "10",
+   "dob_year": "1979",
+   "tob_hour": "10",
+   "tob_min": "10",
+   "tob_sec": "10",
+   "tob_ampm": "AM",
+   "lat": "8.3544",
+   "lon": "77.7919"
   }
  }
 }
