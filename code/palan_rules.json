@@ -1,16 +1,191 @@
 [
  {
   "id": 1,
-  "varga": "D1",
-  "graha": "sun",
-  "cond": "bhava=10",
-  "text": "அரசு வேலை, அதிகாரம், தந்தை வழி முன்னேற்றம்"
+  "varga": "ALL",
+  "rule": "papa.in.1=1",
+  "palan": "வர்க்க லக்னத்தில் அசுப கிரகம் — அந்த வர்க்கம் பாதிக்கப்படும்",
+  "parikaram": ""
  },
  {
   "id": 2,
+  "varga": "ALL",
+  "rule": "subha.in.1=1",
+  "palan": "வர்க்க லக்னத்தில் சுப கிரகம் — நன்மை",
+  "parikaram": ""
+ },
+ {
+  "id": 3,
+  "varga": "ALL",
+  "rule": "papa_kartari.1=1",
+  "palan": "வர்க்க லக்னம் அசுப கர்த்தரி யோகத்தில்",
+  "parikaram": ""
+ },
+ {
+  "id": 4,
+  "varga": "ALL",
+  "rule": "subha_kartari.1=1",
+  "palan": "வர்க்க லக்னம் சுப கர்த்தரி யோகத்தில் — பாதுகாப்பு",
+  "parikaram": ""
+ },
+ {
+  "id": 5,
+  "varga": "ALL",
+  "rule": "varga_lagna_lord.dusthana=1",
+  "palan": "வர்க்க லக்னாதிபதி 3/6/8/12-ல் மறைவு — வர்க்கப் பலன் குறையும்",
+  "parikaram": ""
+ },
+ {
+  "id": 6,
+  "varga": "ALL",
+  "rule": "karako_bhava_nasaya=1",
+  "palan": "காரகோ பாவ நாசாய — வர்க்கக் காரகன் லக்னத்திலேயே",
+  "parikaram": ""
+ },
+ {
+  "id": 7,
+  "varga": "ALL",
+  "rule": "lagna.in_astangam=1",
+  "palan": "வர்க்க லக்னம் அஸ்தங்க வீட்டில்",
+  "parikaram": ""
+ },
+ {
+  "id": 8,
+  "varga": "ALL",
+  "rule": "lagna.in_kiraganam=1",
+  "palan": "வர்க்க லக்னம் கிரகண வீட்டில்",
+  "parikaram": ""
+ },
+ {
+  "id": 9,
+  "varga": "ALL",
+  "rule": "lagna.in_yuddha=1",
+  "palan": "வர்க்க லக்னம் கிரக யுத்த வீட்டில்",
+  "parikaram": ""
+ },
+ {
+  "id": 10,
+  "varga": "ALL",
+  "rule": "axis2_12.papa=1",
+  "palan": "2-12 அச்சில் அசுபர்",
+  "parikaram": ""
+ },
+ {
+  "id": 11,
+  "varga": "ALL",
+  "rule": "axis3_11.papa=1",
+  "palan": "3-11 அச்சில் அசுபர்",
+  "parikaram": ""
+ },
+ {
+  "id": 12,
+  "varga": "ALL",
+  "rule": "axis4_10.papa=1",
+  "palan": "4-10 அச்சில் அசுபர்",
+  "parikaram": ""
+ },
+ {
+  "id": 13,
+  "varga": "ALL",
+  "rule": "axis5_9.papa=1",
+  "palan": "5-9 அச்சில் அசுபர்",
+  "parikaram": ""
+ },
+ {
+  "id": 14,
+  "varga": "ALL",
+  "rule": "axis6_8.papa=1",
+  "palan": "6-8 அச்சில் அசுபர்",
+  "parikaram": ""
+ },
+ {
+  "id": 15,
+  "varga": "ALL",
+  "rule": "papa.in.2=1 & papa.in.11=1",
+  "palan": "2, 11-ல் அசுபர் — பண வரவு சிறப்பு",
+  "parikaram": ""
+ },
+ {
+  "id": 16,
+  "varga": "ALL",
+  "rule": "papa.in.2=1 & papa.in.12=1",
+  "palan": "2, 12 இரண்டிலும் அசுபர் — தவிர்க்க வேண்டியது",
+  "parikaram": ""
+ },
+ {
+  "id": 17,
+  "varga": "ALL",
+  "rule": "papa.in.2=1 & subha.in.12=1",
+  "palan": "2-ல் அசுபர், 12-ல் சுபர் — நியாயமான பலன்",
+  "parikaram": ""
+ },
+ {
+  "id": 18,
+  "varga": "D9",
+  "rule": "rahu.bhava=1",
+  "palan": "D9 லக்னத்தில் ராகு — பெண் ஜாதகத்திற்கு தவிர்க்க வேண்டியது",
+  "parikaram": ""
+ },
+ {
+  "id": 19,
+  "varga": "D9",
+  "rule": "saturn.bhava=1",
+  "palan": "D9 லக்னத்தில் சனி — ஆண் ஜாதகத்திற்கு தவிர்க்க வேண்டியது",
+  "parikaram": ""
+ },
+ {
+  "id": 20,
+  "varga": "D8",
+  "rule": "saturn.bhava=1",
+  "palan": "D8 லக்னத்தில் சனி — ஆயுள் பலம்",
+  "parikaram": ""
+ },
+ {
+  "id": 21,
+  "varga": "D8",
+  "rule": "saturn.bhava=1 & gulika.bhava=1",
+  "palan": "D8 லக்னத்தில் சனி + மாந்தி — ஆயுள் குறையும்",
+  "parikaram": ""
+ },
+ {
+  "id": 22,
+  "varga": "D4",
+  "rule": "mercury.bhava=8",
+  "palan": "D4-ல் 8-ல் புதன் — அசையா சொத்து சேரும்",
+  "parikaram": ""
+ },
+ {
+  "id": 23,
   "varga": "D1",
-  "graha": "saturn",
-  "cond": "sarva>30",
-  "text": "நிலையான முன்னேற்றம், தாமதமான வெற்றி"
+  "rule": "mars.bhava=6",
+  "palan": "செவ்வாய் 6-ல் — நல்ல அமைப்பு",
+  "parikaram": ""
+ },
+ {
+  "id": 24,
+  "varga": "D1",
+  "rule": "lagna_lord.dusthana=1",
+  "palan": "D1 லக்னாதிபதி மறைவு — வர்க்கப் பலன் குறையும்",
+  "parikaram": ""
+ },
+ {
+  "id": 25,
+  "varga": "ALL",
+  "rule": "varga_lagna_lord.dusthana=1 & gulika.bhava=8",
+  "palan": "வர்க்க லக்னாதிபதி 8-ல் மறைவு, குளிகனுடன் — தீமை மிகும்",
+  "parikaram": ""
+ },
+ {
+  "id": 26,
+  "varga": "ALL",
+  "rule": "gulika.bhava=1",
+  "palan": "வர்க்க லக்னத்தில் குளிகன் — பாதிப்பு",
+  "parikaram": ""
+ },
+ {
+  "id": 27,
+  "varga": "ALL",
+  "rule": "gulika.bhava=8",
+  "palan": "8-ல் குளிகன்",
+  "parikaram": ""
  }
 ]
