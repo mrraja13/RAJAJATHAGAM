@@ -55,6 +55,21 @@
     "Ketu": 212.31444444444446,
     "Gulika": 13.447777777777778
    }
+  },
+  "AMAL": {
+   "person_name": "AMAL",
+   "place_name": "ஆறுமுகநேரி",
+   "gender": "Male",
+   "dob_day": "15",
+   "dob_month": "10",
+   "dob_year": "1980",
+   "tob_hour": "12",
+   "tob_min": "11",
+   "tob_sec": "52",
+   "tob_ampm": "PM",
+   "lat": "8.33N",
+   "lon": "078.04E",
+   "edited_longitudes": null
   }
  }
 }
