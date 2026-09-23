@@ -70,6 +70,33 @@
    "lat": "8.5794",
    "lon": "78.0920",
    "edited_longitudes": null
+  },
+  "VIVEKHA": {
+   "person_name": "VIVEKHA",
+   "place_name": "RAJAPALAYAM",
+   "gender": "Female",
+   "dob_day": "14",
+   "dob_month": "09",
+   "dob_year": "2002",
+   "tob_hour": "03",
+   "tob_min": "30",
+   "tob_sec": "15",
+   "tob_ampm": "PM",
+   "lat": "9.4032",
+   "lon": "77.5183",
+   "edited_longitudes": {
+    "Lagna": 281.3327777777778,
+    "Sun": 147.6783333333333,
+    "Moon": 245.82166666666666,
+    "Mars": 136.31361111111113,
+    "Mercury": 169.49194444444444,
+    "Jupiter": 105.40833333333335,
+    "Venus": 191.04833333333332,
+    "Saturn": 64.6725,
+    "Rahu": 49.03527777777778,
+    "Ketu": 229.03527777777776,
+    "Gulika": 158.87694444444446
+   }
   }
  }
 }
