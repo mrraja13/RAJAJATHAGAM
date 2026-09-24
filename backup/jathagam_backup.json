@@ -394,6 +394,21 @@
    "lat": "13.0837",
    "lon": "80.2702",
    "edited_longitudes": null
+  },
+  "SANCTAN AMAL": {
+   "person_name": "SANCTAN AMAL",
+   "place_name": "தூத்துக்குடி",
+   "gender": "Male",
+   "dob_day": "17",
+   "dob_month": "01",
+   "dob_year": "2009",
+   "tob_hour": "04",
+   "tob_min": "35",
+   "tob_sec": "12",
+   "tob_ampm": "AM",
+   "lat": "8.8053",
+   "lon": "78.1453",
+   "edited_longitudes": null
   }
  }
 }
