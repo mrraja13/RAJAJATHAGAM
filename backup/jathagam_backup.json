@@ -769,6 +769,21 @@
    "lat": "12.9072",
    "lon": "79.1310",
    "edited_longitudes": null
+  },
+  "lakshmi": {
+   "person_name": "lakshmi",
+   "place_name": "பெங்களூரு",
+   "gender": "Female",
+   "dob_day": "24",
+   "dob_month": "12",
+   "dob_year": "1974",
+   "tob_hour": "02",
+   "tob_min": "30",
+   "tob_sec": "13",
+   "tob_ampm": "PM",
+   "lat": "12.9768",
+   "lon": "77.5901",
+   "edited_longitudes": null
   }
  }
 }
