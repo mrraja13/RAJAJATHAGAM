@@ -169,6 +169,21 @@
    "lat": "8.8053",
    "lon": "78.1453",
    "edited_longitudes": null
+  },
+  "Keerthika Bed": {
+   "person_name": "Keerthika Bed",
+   "place_name": "Chemin",
+   "gender": "Female",
+   "dob_day": "28",
+   "dob_month": "08",
+   "dob_year": "2005",
+   "tob_hour": "05",
+   "tob_min": "00",
+   "tob_sec": "09",
+   "tob_ampm": "AM",
+   "lat": "46.9797",
+   "lon": "5.3163",
+   "edited_longitudes": null
   }
  }
 }
