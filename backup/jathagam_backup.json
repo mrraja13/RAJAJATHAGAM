@@ -874,6 +874,21 @@
    "lat": "10.6590",
    "lon": "79.2014",
    "edited_longitudes": null
+  },
+  "ram viji": {
+   "person_name": "ram viji",
+   "place_name": "தூத்துக்குடி",
+   "gender": "Male",
+   "dob_day": "17",
+   "dob_month": "03",
+   "dob_year": "1986",
+   "tob_hour": "01",
+   "tob_min": "45",
+   "tob_sec": "07",
+   "tob_ampm": "PM",
+   "lat": "8.8053",
+   "lon": "78.1453",
+   "edited_longitudes": null
   }
  }
 }
