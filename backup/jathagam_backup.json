@@ -784,6 +784,21 @@
    "lat": "12.9768",
    "lon": "77.5901",
    "edited_longitudes": null
+  },
+  "roslin biju wife": {
+   "person_name": "roslin biju wife",
+   "place_name": "நாகர்கோவில்",
+   "gender": "Female",
+   "dob_day": "03",
+   "dob_month": "11",
+   "dob_year": "1997",
+   "tob_hour": "03",
+   "tob_min": "57",
+   "tob_sec": "09",
+   "tob_ampm": "AM",
+   "lat": "8.1840",
+   "lon": "77.4315",
+   "edited_longitudes": null
   }
  }
 }
