@@ -589,6 +589,21 @@
    "lat": "8.5794",
    "lon": "78.0920",
    "edited_longitudes": null
+  },
+  "dinesh kosi relative": {
+   "person_name": "dinesh kosi relative",
+   "place_name": "sathankulam",
+   "gender": "Male",
+   "dob_day": "01",
+   "dob_month": "11",
+   "dob_year": "1991",
+   "tob_hour": "09",
+   "tob_min": "00",
+   "tob_sec": "13",
+   "tob_ampm": "PM",
+   "lat": "8.4448",
+   "lon": "77.9055",
+   "edited_longitudes": null
   }
  }
 }
