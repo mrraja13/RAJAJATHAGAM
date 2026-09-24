@@ -844,6 +844,21 @@
    "lat": "8.1840",
    "lon": "77.4315",
    "edited_longitudes": null
+  },
+  "nedu wife": {
+   "person_name": "nedu wife ",
+   "place_name": "thanjavur",
+   "gender": "Female",
+   "dob_day": "06",
+   "dob_month": "09",
+   "dob_year": "1985",
+   "tob_hour": "03",
+   "tob_min": "34",
+   "tob_sec": "04",
+   "tob_ampm": "AM",
+   "lat": "10.6590",
+   "lon": "79.2014",
+   "edited_longitudes": null
   }
  }
 }
