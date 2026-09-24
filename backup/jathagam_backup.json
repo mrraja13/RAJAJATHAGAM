@@ -454,6 +454,21 @@
    "lat": "13.0837",
    "lon": "80.2702",
    "edited_longitudes": null
+  },
+  "BALAMURUGAN PRASANNAVASANTHI": {
+   "person_name": "BALAMURUGAN PRASANNAVASANTHI",
+   "place_name": "சென்னை",
+   "gender": "Male",
+   "dob_day": "18",
+   "dob_month": "08",
+   "dob_year": "1975",
+   "tob_hour": "09",
+   "tob_min": "37",
+   "tob_sec": "06",
+   "tob_ampm": "PM",
+   "lat": "13.0837",
+   "lon": "80.2702",
+   "edited_longitudes": null
   }
  }
 }
