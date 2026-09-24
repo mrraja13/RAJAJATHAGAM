@@ -214,6 +214,21 @@
    "lat": "9.9261",
    "lon": "78.1141",
    "edited_longitudes": null
+  },
+  "PRABHA": {
+   "person_name": "prabha",
+   "place_name": "தூத்துக்குடி",
+   "gender": "Female",
+   "dob_day": "27",
+   "dob_month": "04",
+   "dob_year": "1986",
+   "tob_hour": "01",
+   "tob_min": "50",
+   "tob_sec": "10",
+   "tob_ampm": "AM",
+   "lat": "8.8053",
+   "lon": "78.1453",
+   "edited_longitudes": null
   }
  }
 }
