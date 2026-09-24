@@ -319,6 +319,21 @@
    "lat": "13.0837",
    "lon": "80.2702",
    "edited_longitudes": null
+  },
+  "SUGUMAR KADIRAVAN FRIEND": {
+   "person_name": "SUGUMAR KADIRAVAN FRIEND",
+   "place_name": "சென்னை",
+   "gender": "Male",
+   "dob_day": "10",
+   "dob_month": "09",
+   "dob_year": "1979",
+   "tob_hour": "08",
+   "tob_min": "00",
+   "tob_sec": "45",
+   "tob_ampm": "AM",
+   "lat": "13.0837",
+   "lon": "80.2702",
+   "edited_longitudes": null
   }
  }
 }
