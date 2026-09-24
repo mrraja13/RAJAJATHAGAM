@@ -544,6 +544,21 @@
    "lat": "8.5794",
    "lon": "78.0920",
    "edited_longitudes": null
+  },
+  "gwc ikram": {
+   "person_name": "gwc ikram",
+   "place_name": "சென்னை",
+   "gender": "Male",
+   "dob_day": "03",
+   "dob_month": "04",
+   "dob_year": "1988",
+   "tob_hour": "06",
+   "tob_min": "06",
+   "tob_sec": "04",
+   "tob_ampm": "PM",
+   "lat": "13.0837",
+   "lon": "80.2702",
+   "edited_longitudes": null
   }
  }
 }
