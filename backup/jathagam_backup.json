@@ -799,6 +799,21 @@
    "lat": "8.1840",
    "lon": "77.4315",
    "edited_longitudes": null
+  },
+  "stany biju": {
+   "person_name": "stany biju",
+   "place_name": "நாகர்கோவில்",
+   "gender": "Male",
+   "dob_day": "08",
+   "dob_month": "11",
+   "dob_year": "1997",
+   "tob_hour": "06",
+   "tob_min": "15",
+   "tob_sec": "17",
+   "tob_ampm": "PM",
+   "lat": "8.1840",
+   "lon": "77.4315",
+   "edited_longitudes": null
   }
  }
 }
