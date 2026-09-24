@@ -304,6 +304,21 @@
    "lat": "12.7476",
    "lon": "80.1882",
    "edited_longitudes": null
+  },
+  "DEEPA STAR": {
+   "person_name": "DEEPA STAR",
+   "place_name": "சென்னை",
+   "gender": "Female",
+   "dob_day": "03",
+   "dob_month": "01",
+   "dob_year": "1981",
+   "tob_hour": "06",
+   "tob_min": "15",
+   "tob_sec": "16",
+   "tob_ampm": "AM",
+   "lat": "13.0837",
+   "lon": "80.2702",
+   "edited_longitudes": null
   }
  }
 }
