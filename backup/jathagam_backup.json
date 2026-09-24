@@ -154,6 +154,21 @@
    "lat": "8.8053",
    "lon": "78.1453",
    "edited_longitudes": null
+  },
+  "Kandasamy Ragu friend": {
+   "person_name": "Kandasamy Ragu friend",
+   "place_name": "தூத்துக்குடி",
+   "gender": "Male",
+   "dob_day": "16",
+   "dob_month": "10",
+   "dob_year": "1984",
+   "tob_hour": "03",
+   "tob_min": "00",
+   "tob_sec": "10",
+   "tob_ampm": "AM",
+   "lat": "8.8053",
+   "lon": "78.1453",
+   "edited_longitudes": null
   }
  }
 }
