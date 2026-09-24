@@ -139,6 +139,21 @@
    "lat": "8.3544",
    "lon": "77.7919",
    "edited_longitudes": null
+  },
+  "Raja ragu friend": {
+   "person_name": "Raja ragu friend ",
+   "place_name": "தூத்துக்குடி",
+   "gender": "Male",
+   "dob_day": "26",
+   "dob_month": "05",
+   "dob_year": "1980",
+   "tob_hour": "12",
+   "tob_min": "45",
+   "tob_sec": "07",
+   "tob_ampm": "PM",
+   "lat": "8.8053",
+   "lon": "78.1453",
+   "edited_longitudes": null
   }
  }
 }
