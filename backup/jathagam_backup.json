@@ -274,6 +274,21 @@
    "lat": "13.0837",
    "lon": "80.2702",
    "edited_longitudes": null
+  },
+  "SHANTHI SCHOOL": {
+   "person_name": "SHANTHI SCHOOL",
+   "place_name": "சென்னை",
+   "gender": "Female",
+   "dob_day": "15",
+   "dob_month": "03",
+   "dob_year": "1994",
+   "tob_hour": "07",
+   "tob_min": "30",
+   "tob_sec": "26",
+   "tob_ampm": "AM",
+   "lat": "13.0837",
+   "lon": "80.2702",
+   "edited_longitudes": null
   }
  }
 }
