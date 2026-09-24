@@ -619,6 +619,21 @@
    "lat": "8.4437",
    "lon": "77.9154",
    "edited_longitudes": null
+  },
+  "abinaya husband": {
+   "person_name": "abinaya husband",
+   "place_name": "திருச்செந்தூர்",
+   "gender": "Male",
+   "dob_day": "08",
+   "dob_month": "10",
+   "dob_year": "1997",
+   "tob_hour": "10",
+   "tob_min": "14",
+   "tob_sec": "14",
+   "tob_ampm": "PM",
+   "lat": "8.4956",
+   "lon": "78.1233",
+   "edited_longitudes": null
   }
  }
 }
