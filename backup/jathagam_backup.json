@@ -604,6 +604,21 @@
    "lat": "8.4448",
    "lon": "77.9055",
    "edited_longitudes": null
+  },
+  "rohini kousi sister": {
+   "person_name": "rohini kousi sister ",
+   "place_name": "சாத்தான்குளம்",
+   "gender": "Female",
+   "dob_day": "07",
+   "dob_month": "10",
+   "dob_year": "2000",
+   "tob_hour": "07",
+   "tob_min": "55",
+   "tob_sec": "13",
+   "tob_ampm": "AM",
+   "lat": "8.4437",
+   "lon": "77.9154",
+   "edited_longitudes": null
   }
  }
 }
