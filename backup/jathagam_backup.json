@@ -184,6 +184,21 @@
    "lat": "46.9797",
    "lon": "5.3163",
    "edited_longitudes": null
+  },
+  "Ragu": {
+   "person_name": "Ragu",
+   "place_name": "தூத்துக்குடி",
+   "gender": "Male",
+   "dob_day": "29",
+   "dob_month": "04",
+   "dob_year": "1981",
+   "tob_hour": "11",
+   "tob_min": "30",
+   "tob_sec": "33",
+   "tob_ampm": "PM",
+   "lat": "8.8053",
+   "lon": "78.1453",
+   "edited_longitudes": null
   }
  }
 }
