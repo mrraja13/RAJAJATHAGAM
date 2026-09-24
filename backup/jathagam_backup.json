@@ -289,6 +289,21 @@
    "lat": "13.0837",
    "lon": "80.2702",
    "edited_longitudes": null
+  },
+  "STD YASIKA": {
+   "person_name": "STD YASIKA",
+   "place_name": "TIRUPORUR",
+   "gender": "Female",
+   "dob_day": "05",
+   "dob_month": "07",
+   "dob_year": "2009",
+   "tob_hour": "02",
+   "tob_min": "05",
+   "tob_sec": "15",
+   "tob_ampm": "AM",
+   "lat": "12.7476",
+   "lon": "80.1882",
+   "edited_longitudes": null
   }
  }
 }
