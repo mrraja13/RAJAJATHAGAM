@@ -124,6 +124,21 @@
     "Ketu": 169.39916666666667,
     "Gulika": 98.75972222222222
    }
+  },
+  "Kousi": {
+   "person_name": "Kousi",
+   "place_name": "Tisayanvilai",
+   "gender": "Female",
+   "dob_day": "19",
+   "dob_month": "09",
+   "dob_year": "1998",
+   "tob_hour": "10",
+   "tob_min": "44",
+   "tob_sec": "44",
+   "tob_ampm": "PM",
+   "lat": "8.3544",
+   "lon": "77.7919",
+   "edited_longitudes": null
   }
  }
 }
