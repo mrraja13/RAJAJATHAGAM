@@ -469,6 +469,21 @@
    "lat": "13.0837",
    "lon": "80.2702",
    "edited_longitudes": null
+  },
+  "VINAYAGAM": {
+   "person_name": "VINAYAGAM",
+   "place_name": "ஆறுமுகநேரி",
+   "gender": "Male",
+   "dob_day": "06",
+   "dob_month": "11",
+   "dob_year": "1974",
+   "tob_hour": "07",
+   "tob_min": "00",
+   "tob_sec": "00",
+   "tob_ampm": "PM",
+   "lat": "8.5794",
+   "lon": "78.0920",
+   "edited_longitudes": null
   }
  }
 }
