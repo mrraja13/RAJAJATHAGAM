@@ -814,6 +814,21 @@
    "lat": "8.1840",
    "lon": "77.4315",
    "edited_longitudes": null
+  },
+  "kannan": {
+   "person_name": "kannan",
+   "place_name": "thanjavur",
+   "gender": "Male",
+   "dob_day": "11",
+   "dob_month": "10",
+   "dob_year": "1984",
+   "tob_hour": "06",
+   "tob_min": "35",
+   "tob_sec": "14",
+   "tob_ampm": "PM",
+   "lat": "10.6590",
+   "lon": "79.2014",
+   "edited_longitudes": null
   }
  }
 }
