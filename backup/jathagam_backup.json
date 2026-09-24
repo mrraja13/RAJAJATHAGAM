@@ -679,6 +679,21 @@
    "lat": "10.7339",
    "lon": "79.1122",
    "edited_longitudes": null
+  },
+  "std jeevaraj": {
+   "person_name": "std jeevaraj ",
+   "place_name": "சென்னை",
+   "gender": "Male",
+   "dob_day": "01",
+   "dob_month": "09",
+   "dob_year": "2009",
+   "tob_hour": "11",
+   "tob_min": "09",
+   "tob_sec": "14",
+   "tob_ampm": "AM",
+   "lat": "13.0837",
+   "lon": "80.2702",
+   "edited_longitudes": null
   }
  }
 }
