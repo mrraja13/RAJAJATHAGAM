@@ -288,7 +288,19 @@
    "tob_ampm": "AM",
    "lat": "13.0837",
    "lon": "80.2702",
-   "edited_longitudes": null
+   "edited_longitudes": {
+    "Lagna": 351.8461111111111,
+    "Sun": 330.63388888888886,
+    "Moon": 1.233888888888889,
+    "Mars": 312.3713888888889,
+    "Mercury": 303.3355555555555,
+    "Jupiter": 200.70166666666665,
+    "Venus": 344.43583333333333,
+    "Saturn": 311.7863888888889,
+    "Rahu": 213.60166666666666,
+    "Ketu": 33.60166666666667,
+    "Gulika": 83.45
+   }
   },
   "STD YASIKA": {
    "person_name": "STD YASIKA",
