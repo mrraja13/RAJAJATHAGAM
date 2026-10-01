@@ -916,6 +916,33 @@
    "lat": "8.8053",
    "lon": "78.1453",
    "edited_longitudes": null
+  },
+  "SAKTHIVEL Bed MOHAMED FRIEND": {
+   "person_name": "SAKTHIVEL Bed MOHAMED FRIEND",
+   "place_name": "வாணியம்பாடி",
+   "gender": "Male",
+   "dob_day": "11",
+   "dob_month": "10",
+   "dob_year": "2003",
+   "tob_hour": "08",
+   "tob_min": "00",
+   "tob_sec": "34",
+   "tob_ampm": "AM",
+   "lat": "12.6787",
+   "lon": "78.6200",
+   "edited_longitudes": {
+    "Lagna": 227.88888888888889,
+    "Sun": 203.51055555555556,
+    "Moon": 34.89833333333333,
+    "Mars": 317.28,
+    "Mercury": 212.85916666666665,
+    "Jupiter": 140.74055555555555,
+    "Venus": 225.19194444444446,
+    "Saturn": 79.26777777777778,
+    "Rahu": 26.689444444444444,
+    "Ketu": 206.68944444444446,
+    "Gulika": 331.0469444444445
+   }
   }
  }
 }
