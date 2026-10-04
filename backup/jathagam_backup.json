@@ -90,33 +90,6 @@
    "lat": "8.3544",
    "lon": "77.7919"
   },
-  "Mohamed sir": {
-   "person_name": "Mohamed sir",
-   "place_name": "நெல்லூர்",
-   "gender": "Male",
-   "dob_day": "27",
-   "dob_month": "07",
-   "dob_year": "2003",
-   "tob_hour": "04",
-   "tob_min": "40",
-   "tob_sec": "40",
-   "tob_ampm": "AM",
-   "lat": "14.4494",
-   "lon": "79.9874",
-   "edited_longitudes": {
-    "Lagna": 87.15,
-    "Sun": 99.79083333333332,
-    "Moon": 72.33055555555555,
-    "Mars": 316.3408333333333,
-    "Mercury": 120.61416666666666,
-    "Jupiter": 119.44611111111111,
-    "Venus": 93.51361111111112,
-    "Saturn": 73.0038888888889,
-    "Rahu": 32.31444444444444,
-    "Ketu": 212.31444444444446,
-    "Gulika": 13.447777777777778
-   }
-  },
   "VIVEKHA": {
    "person_name": "VIVEKHA",
    "place_name": "RAJAPALAYAM",
