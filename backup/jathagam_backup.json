@@ -62,20 +62,6 @@
     ]
    }
   },
-  "Thenmozhi": {
-   "person_name": "Thenmozhi",
-   "place_name": "அரக்கோணம்",
-   "gender": "Female",
-   "dob_day": "20",
-   "dob_month": "01",
-   "dob_year": "2002",
-   "tob_hour": "10",
-   "tob_min": "10",
-   "tob_sec": "20",
-   "tob_ampm": "AM",
-   "lat": "13.0840",
-   "lon": "79.6701"
-  },
   "VIVEKHA": {
    "person_name": "VIVEKHA",
    "place_name": "RAJAPALAYAM",
