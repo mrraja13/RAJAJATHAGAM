@@ -1,6 +1,67 @@
 {
  "version": 1,
  "charts": {
+  "lakshmi miss AV": {
+   "person_name": "lakshmi miss AV",
+   "name": "lakshmi miss AV",
+   "gender": "Female",
+   "place_name": "Bengaluru",
+   "dob_day": "24",
+   "dob_month": "12",
+   "dob_year": "1974",
+   "tob_hour": "02",
+   "tob_min": "30",
+   "tob_sec": "46",
+   "tob_ampm": "PM",
+   "lat": "12.9667",
+   "lon": "77.5667",
+   "edited_longitudes": {
+    "Lagna": 17.934167,
+    "Moon": 7.851111,
+    "Sun": 248.810556,
+    "Mercury": 251.398056,
+    "Venus": 260.455278,
+    "Mars": 226.1575,
+    "Jupiter": 318.740833,
+    "Saturn": 83.131111,
+    "Rahu": 225.643333,
+    "Ketu": 45.643333,
+    "Gulika": 359.811389
+   },
+   "av_import": {
+    "source": "AstroVision",
+    "dasa_balance": {
+     "lord": "Ketu",
+     "y": 2,
+     "m": 10,
+     "d": 16
+    },
+    "sav": [
+     29,
+     26,
+     27,
+     27,
+     28,
+     39,
+     31,
+     23,
+     27,
+     27,
+     35,
+     18
+    ],
+    "yogas": [
+     "ராஜயோகம்",
+     "பர்வத யோகம்",
+     "பாச யோகம்",
+     "சரள யோகம்",
+     "சுயவீரியதன யோகம்",
+     "சத்காலத்ர யோகம்",
+     "பாரிஜாத யோகம்",
+     "திரிக்கிரகம் யோகம்"
+    ]
+   }
+  },
   "Thenmozhi": {
    "person_name": "Thenmozhi",
    "place_name": "அரக்கோணம்",
@@ -55,21 +116,6 @@
     "Ketu": 212.31444444444446,
     "Gulika": 13.447777777777778
    }
-  },
-  "AMAL": {
-   "person_name": "AMAL",
-   "place_name": "ஆறுமுகநேரி",
-   "gender": "Male",
-   "dob_day": "15",
-   "dob_month": "10",
-   "dob_year": "1980",
-   "tob_hour": "12",
-   "tob_min": "11",
-   "tob_sec": "52",
-   "tob_ampm": "PM",
-   "lat": "8.5794",
-   "lon": "78.0920",
-   "edited_longitudes": null
   },
   "VIVEKHA": {
    "person_name": "VIVEKHA",
